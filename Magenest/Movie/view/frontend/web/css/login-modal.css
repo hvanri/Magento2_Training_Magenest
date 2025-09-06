@@ -1,0 +1,49 @@
+/* Container modal */
+.my-login-modal .modal-inner-wrap {
+    padding: 30px;
+    max-width: 400px;
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+/* Form fields */
+.my-login-modal .field {
+    margin-bottom: 20px;
+}
+
+.my-login-modal .field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.my-login-modal .field input.input-text {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Button */
+.my-login-modal .actions button.action-primary {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff; /* xanh Magento-like */
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.my-login-modal .actions button.action-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Optional: thêm bóng */
+.my-login-modal .modal-inner-wrap {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
