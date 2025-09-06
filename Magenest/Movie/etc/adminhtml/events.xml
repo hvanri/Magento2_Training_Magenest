@@ -8,5 +8,6 @@
     </event>
     <event name="customer_save_before">
         <observer name="magenest_movie_update_firstname" instance="Magenest\Movie\Observer\ChangeFirstname" />
+        <observer name="magenest_save_customer_avatar" instance="Magenest\Movie\Observer\SaveCustomerAvatar" />
     </event>
 </config>

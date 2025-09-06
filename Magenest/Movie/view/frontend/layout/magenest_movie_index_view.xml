@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      layout="1column"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Magenest_Movie::css/login-modal.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" name="magenest_movie_content" template="Magenest_Movie::example.phtml"/>
+            <block class="Magento\Framework\View\Element\Template"
+                   name="magenest_movie_button"
+                   template="Magenest_Movie::button.phtml"/>
+            <block class="Magento\Framework\View\Element\Template"
+                   name="magenest_movie_button_second"
+                   template="Magenest_Movie::button_second.phtml"/>
+            <block class="Magento\Framework\View\Element\Template"
+                   name="magenest_movie_login_form"
+                   template="Magenest_Movie::login-form.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

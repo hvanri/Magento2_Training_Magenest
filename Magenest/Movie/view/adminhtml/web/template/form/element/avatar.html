@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="admin__field-control">
+    <input type="file" data-bind="attr: {name: inputName, id: uid},
+                                  event: {change: onFileChange}" />
+
+    <!-- Hiển thị preview -->
+    <!-- ko if: value() -->
+    <div class="avatar-preview">
+        <img data-bind="attr: {src: value}"
+             style="max-width: 100px; max-height: 100px;" />
+    </div>
+    <!-- /ko -->
+</div>
+</body>
+</html>
