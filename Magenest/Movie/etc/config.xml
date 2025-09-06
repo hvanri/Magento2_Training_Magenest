@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/config.xsd">
+    <default>
+        <movie>
+            <general>
+                <text_field>I'm a text field</text_field>
+                <!-- yes/no uses 1 = Yes, 0 = No -->
+                <yes_no_field_abcd>1</yes_no_field_abcd>
+                <!-- custom select default -> show (1) -->
+                <custom_select_field>1</custom_select_field>
+            </general>
+        </movie>
+    </default>
+</config>

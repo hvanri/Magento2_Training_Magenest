@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="magenest_movie_before_save">
+        <observer name="magenest_movie_before_save_observer" instance="Magenest\Movie\Observer\Movie\MovieBeforeSave" />
+    </event>
+    <event name="admin_system_config_changed_section_movie">
+        <observer name="magenest_movie_config_observer" instance="Magenest\Movie\Observer\Movie\ChangeTextField" />
+    </event>
+    <event name="customer_save_before">
+        <observer name="magenest_movie_update_firstname" instance="Magenest\Movie\Observer\ChangeFirstname" />
+    </event>
+</config>

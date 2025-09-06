@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+
+    <menu>
+        <!-- Tab chính: Magenest -->
+        <add id="Magenest_Movie::top_level"
+             title="Magenest"
+             module="Magenest_Movie"
+             sortOrder="100"
+             resource="Magenest_Movie::top_level" />
+
+        <!-- Submenu: Movie -->
+        <add id="Magenest_Movie::movie"
+             title="Movie"
+             module="Magenest_Movie"
+             sortOrder="10"
+             parent="Magenest_Movie::top_level"
+             resource="Magenest_Movie::movie" />
+
+        <!-- Submenu con của Movie: Movies -->
+        <add id="Magenest_Movie::movies"
+             title="Movies"
+             module="Magenest_Movie"
+             sortOrder="10"
+             parent="Magenest_Movie::movie"
+             action="magenest_movie/movie/index"
+             resource="Magenest_Movie::movies" />
+
+        <!-- Submenu con của Movie: Directors -->
+        <add id="Magenest_Movie::directors"
+             title="Directors"
+             module="Magenest_Movie"
+             sortOrder="20"
+             parent="Magenest_Movie::movie"
+             action="magenest_movie/director/index"
+             resource="Magenest_Movie::directors" />
+        <add id="Magenest_Movie::actors"
+             title="Actors"
+             module="Magenest_Movie"
+             sortOrder="30"
+             parent="Magenest_Movie::movie"
+             action="magenest_movie/actor/index"
+             resource="Magenest_Movie::actors" />
+    </menu>
+</config>

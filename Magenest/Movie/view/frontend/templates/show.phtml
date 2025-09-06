@@ -1,0 +1,19 @@
+<?php
+$movies = $block->getMoviesWithDetails();
+?>
+
+    <h1>Movies List</h1>
+
+<?php if (!empty($movies)): ?>
+    <ul>
+        <?php foreach ($movies as $movie): ?>
+            <li>
+                Name: <strong><?php echo $movie['name']; ?></strong><br>
+                Director: <?php echo $movie['director_name'] ?? 'N/A'; ?><br>
+                Actors: <?php echo !empty($movie['actors']) ? implode(', ', $movie['actors']) : 'N/A'; ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php else: ?>
+    <p>No movies found.</p>
+<?php endif; ?>

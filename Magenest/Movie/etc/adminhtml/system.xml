@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+
+    <system>
+        <!-- Tab chính -->
+        <tab id="magenest" translate="label" sortOrder="100">
+            <label>Magenest</label>
+        </tab>
+
+        <!-- Section (sub tab) -->
+        <section id="movie" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Movie</label>
+            <tab>magenest</tab> <!-- Liên kết với tab chính -->
+            <resource>Magenest_Movie::config_movie</resource>
+
+            <!-- Group (các field bên trong section) -->
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+
+                <!-- Text Field -->
+                <field id="text_field" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Text Field</label>
+                    <comment>Default: "I'm a text field"</comment>
+                </field>
+
+                <!-- Yes/No Field -->
+                <field id="yes_no_field_abcd" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Yes/No_Field_abcd</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Default: Yes</comment>
+                    <frontend_model>Magenest\Movie\Block\Adminhtml\System\Config\YesNoRed</frontend_model>
+                </field>
+
+                <!-- Custom Select Field -->
+                <field id="custom_select_field" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom Select Field</label>
+                    <source_model>Magenest\Movie\Model\Config\Source\CustomSelect</source_model>
+                    <comment>Options: "show" => 1, "not-show" => 2</comment>
+                </field>
+                <field id="movie_count" translate="label" type="label" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Rows in table "magenest_movie"</label>
+                    <frontend_model>Magenest\Movie\Block\Adminhtml\System\Config\MovieCount</frontend_model>
+                </field>
+                <field id="actor_count" translate="label" type="label" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Rows in table "magenest_actor"</label>
+                    <frontend_model>Magenest\Movie\Block\Adminhtml\System\Config\ActorCount</frontend_model>
+                </field>
+                <field id="refresh_button" translate="label" type="button" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Button Field</label>
+                    <frontend_model>Magenest\Movie\Block\Adminhtml\System\Config\RefreshButton</frontend_model>
+                </field>
+
+            </group>
+        </section>
+    </system>
+</config>
