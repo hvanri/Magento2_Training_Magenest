@@ -1,15 +1,11 @@
 <?xml version="1.0"?>
 <acl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
     <resources>
-        <resource id="Magento_Backend::admin">
-            <!-- Tab chính -->
-            <resource id="Magenest_Movie::top_level" title="Magenest" sortOrder="100">
-                <!-- Submenu: Movie -->
-                <resource id="Magenest_Movie::movie" title="Movie" sortOrder="10">
-                    <resource id="Magenest_Movie::movies" title="Movies" sortOrder="10" />
-                    <resource id="Magenest_Movie::directors" title="Directors" sortOrder="20" />
-                    <resource id="Magenest_Movie::actors" title="Actors" sortOrder="30" />
-                </resource>
+        <resource id="Magenest_Movie::movie" title="Movie" sortOrder="10">
+            <resource id="Magenest_Movie::basic1" title="Basic 1" sortOrder="5">
+                <resource id="Magenest_Movie::movies" title="Movies" sortOrder="10" />
+                <resource id="Magenest_Movie::directors" title="Directors" sortOrder="20" />
+                <resource id="Magenest_Movie::actors" title="Actors" sortOrder="30" />
             </resource>
         </resource>
     </resources>

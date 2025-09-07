@@ -3,44 +3,75 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
 
     <menu>
-        <!-- Tab chính: Magenest -->
-        <add id="Magenest_Movie::top_level"
-             title="Magenest"
-             module="Magenest_Movie"
-             sortOrder="100"
-             resource="Magenest_Movie::top_level" />
-
         <!-- Submenu: Movie -->
         <add id="Magenest_Movie::movie"
-             title="Movie"
+             title="Magenest Movie"
              module="Magenest_Movie"
              sortOrder="10"
-             parent="Magenest_Movie::top_level"
              resource="Magenest_Movie::movie" />
 
-        <!-- Submenu con của Movie: Movies -->
+        <!-- Section 1 -->
+        <add id="Magenest_Movie::basic1"
+             title="Basic 1"
+             module="Magenest_Movie"
+             sortOrder="5"
+             parent="Magenest_Movie::movie"
+             resource="Magenest_Movie::movie" />
+
         <add id="Magenest_Movie::movies"
              title="Movies"
              module="Magenest_Movie"
              sortOrder="10"
-             parent="Magenest_Movie::movie"
+             parent="Magenest_Movie::basic1"
              action="magenest_movie/movie/index"
              resource="Magenest_Movie::movies" />
 
-        <!-- Submenu con của Movie: Directors -->
         <add id="Magenest_Movie::directors"
              title="Directors"
              module="Magenest_Movie"
              sortOrder="20"
-             parent="Magenest_Movie::movie"
+             parent="Magenest_Movie::basic1"
              action="magenest_movie/director/index"
              resource="Magenest_Movie::directors" />
+
         <add id="Magenest_Movie::actors"
              title="Actors"
              module="Magenest_Movie"
              sortOrder="30"
-             parent="Magenest_Movie::movie"
+             parent="Magenest_Movie::basic1"
              action="magenest_movie/actor/index"
              resource="Magenest_Movie::actors" />
+
+        <!-- Section 2 -->
+        <add id="Magenest_Movie::basic2"
+             title="Basic 2"
+             module="Magenest_Movie"
+             sortOrder="15"
+             parent="Magenest_Movie::movie"
+             resource="Magenest_Movie::movie" />
+
+        <add id="Magenest_Movie::report"
+             title="Request Report"
+             module="Magenest_Movie"
+             sortOrder="10"
+             parent="Magenest_Movie::basic2"
+             action="magenest_movie/report/index"
+             resource="Magenest_Movie::movie" />
+
+        <!-- Section 3 -->
+        <add id="Magenest_Movie::basic3"
+             title="Basic 3"
+             module="Magenest_Movie"
+             sortOrder="25"
+             parent="Magenest_Movie::movie"
+             resource="Magenest_Movie::movie" />
+
+        <add id="Magenest_Movie::fake_item2"
+             title="Fake Item 2"
+             module="Magenest_Movie"
+             sortOrder="10"
+             parent="Magenest_Movie::basic3"
+             action="magenest_movie/fake2/index"
+             resource="Magenest_Movie::movie" />
     </menu>
 </config>
