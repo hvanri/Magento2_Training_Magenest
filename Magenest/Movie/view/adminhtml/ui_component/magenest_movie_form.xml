@@ -64,7 +64,9 @@
                     <item name="formElement" xsi:type="string">input</item>
                     <item name="source" xsi:type="string">magenest_movie</item>
                     <item name="dataScope" xsi:type="string">name</item>
-                    <item name="required" xsi:type="boolean">true</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
                 </item>
             </argument>
         </field>
@@ -91,22 +93,23 @@
                     <item name="dataScope" xsi:type="string">rating</item>
                     <item name="validation" xsi:type="array">
                         <item name="validate-number" xsi:type="boolean">true</item>
+                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                        <item name="less-than-equals-to" xsi:type="number">10</item>
                     </item>
                 </item>
             </argument>
         </field>
-
         <field name="director_id">
             <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magenest\Movie\Model\Config\Source\DirectorOptions</item>
                 <item name="config" xsi:type="array">
                     <item name="dataType" xsi:type="string">int</item>
-                    <item name="label" xsi:type="string" translate="true">Director ID</item>
-                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="label" xsi:type="string" translate="true">Director</item>
+                    <item name="formElement" xsi:type="string">select</item>
                     <item name="source" xsi:type="string">magenest_movie</item>
                     <item name="dataScope" xsi:type="string">director_id</item>
                 </item>
             </argument>
         </field>
-
     </fieldset>
 </form>

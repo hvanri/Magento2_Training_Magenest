@@ -1,0 +1,11 @@
+.rating-stars {
+    display: inline-block;
+    font-size: 25px;
+    line-height: 1;
+}
+
+.rating-stars .star {
+    color: #FFD700;
+    margin-right: 2px;
+}
+

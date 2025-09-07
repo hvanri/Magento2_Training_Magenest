@@ -54,4 +54,12 @@
             </argument>
         </arguments>
     </type>
+
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid" type="Magento\Sales\Model\ResourceModel\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="odd_or_even" xsi:type="string">sales_order.odd_or_even</item>
+            </argument>
+        </arguments>
+    </virtualType>
 </config>

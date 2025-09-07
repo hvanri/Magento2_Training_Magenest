@@ -1,0 +1,36 @@
+<div class="report-wrapper" style="display: flex; gap: 20px;">
+
+    <!-- 1st content container -->
+    <div class="report-box" style="flex:1; border:1px solid #ccc; padding:20px;">
+        <h2><?= __('Modules Information') ?></h2>
+<p><?= __('Magento Modules: ') ?> <strong><?= $block->getMagentoModulesCount(); ?></strong></p>
+<p><?= __('Third-party Modules: ') ?> <strong><?= $block->getThirdPartyModulesCount(); ?></strong></p>
+</div>
+
+<!-- 2nd content container -->
+<div class="report-box" style="flex:2; border:1px solid #ccc; padding:20px;">
+    <h2><?= __('System Entities') ?></h2>
+    <table class="admin__table-secondary">
+        <tr>
+            <th><?= __('Customers') ?></th>
+            <td><?= $block->getCustomersCount(); ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Products') ?></th>
+            <td><?= $block->getProductsCount(); ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Orders') ?></th>
+            <td><?= $block->getOrdersCount(); ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Invoices') ?></th>
+            <td><?= $block->getInvoicesCount(); ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Credit Memos') ?></th>
+            <td><?= $block->getCreditmemosCount(); ?></td>
+        </tr>
+    </table>
+</div>
+</div>

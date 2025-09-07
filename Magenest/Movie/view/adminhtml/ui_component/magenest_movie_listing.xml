@@ -77,10 +77,11 @@
                 <label>Description</label>
             </settings>
         </column>
-        <column name="rating">
+        <column name="rating" class="Magenest\Movie\Ui\Component\Listing\Column\RatingStars">
             <settings>
                 <filter>textRange</filter>
                 <label>Rating</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
             </settings>
         </column>
 
