@@ -1,0 +1,6 @@
+.img.logo-img {
+    content: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVMt_2Ir0Wu0x_y_nSjut7N-3IE7-coiVyjQ&s');
+}
+li#menu-vendor_extension-menu_id > a > span {
+    display: none;
+}
