@@ -62,4 +62,8 @@
             </argument>
         </arguments>
     </virtualType>
+    <type name="Magento\Customer\Api\CustomerRepositoryInterface">
+        <plugin name="magenest_customer_save_plugin"
+                type="Magenest\Movie\Plugin\CustomerSavePlugin" />
+    </type>
 </config>

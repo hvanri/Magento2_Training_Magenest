@@ -1,0 +1,13 @@
+<?php if ($avatarUrl = $block->getAvatarUrl()): ?>
+    <div class="customer-avatar">
+        <img src="<?= $block->escapeUrl($avatarUrl) ?>" alt="Customer Avatar" style="max-width:150px;"/>
+    </div>
+<?php else: ?>
+    <p>No avatar uploaded.</p>
+<?php endif; ?>
+
+<div class="customer-info">
+    <p><strong>Name:</strong> <?= $block->escapeHtml($block->getCustomerName()); ?></p>
+    <p><strong>Email:</strong> <?= $block->escapeHtml($block->getCustomerEmail()); ?></p>
+    <p><strong>Phone:</strong> <?= $block->escapeHtml($block->getCustomerPhone() ?: 'N/A'); ?></p>
+</div>
