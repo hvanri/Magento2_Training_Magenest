@@ -17,17 +17,17 @@ class SaveCustomerAvatar implements ObserverInterface
 
     public function execute(Observer $observer)
     {
-        /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $observer->getCustomer();
-
-        $avatar = $customer->getData('avatar'); // phải là 'ex7_2_15.png', không có URL
-
-        if ($avatar) {
-            // Move từ tmp → folder chính
-            $fileName = $this->imageUploader->moveFileFromTmp($avatar);
-            var_dump();
-            // Set lại attribute avatar
-            $customer->setCustomAttribute('avatar', $fileName);
-        }
+//        /** @var \Magento\Customer\Model\Customer $customer */
+//        $customer = $observer->getCustomer();
+//
+//        $avatar = $customer->getData('avatar'); // phải là 'ex7_2_15.png', không có URL
+//
+//        if ($avatar) {
+//            // Move từ tmp → folder chính
+//            $fileName = $this->imageUploader->moveFileFromTmp($avatar);
+//            var_dump();
+//            // Set lại attribute avatar
+//            $customer->setCustomAttribute('avatar', $fileName);
+//        }
     }
 }
