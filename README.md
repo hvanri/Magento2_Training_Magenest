@@ -1,9 +1,6 @@
 # Magento2_Training_Magenest
 
-<img width="1854" height="1016" alt="ex7" src="https://github.com/user-attachments/assets/685aa7d1-c839-4ac1-9dd1-e1a03e300986" />
 <img width="1853" height="1000" alt="ex7_1" src="https://github.com/user-attachments/assets/62f89111-fa97-46e7-b85d-b374a9d0ba7e" />
-<img width="1853" height="1000" alt="ex7_2" src="https://github.com/user-attachments/assets/e67e0f12-1d7b-42a1-b10d-2510e496ab7e" />
-<img width="1852" height="1032" alt="ex7_3" src="https://github.com/user-attachments/assets/bba2d863-2db3-4cbd-95fc-de83fc668fe4" />
 <img width="1853" height="1000" alt="ex7_4" src="https://github.com/user-attachments/assets/7cb64e97-b5fe-4836-969d-82e0de5cf88f" />
 <img width="1853" height="1000" alt="ex7_4_1" src="https://github.com/user-attachments/assets/05493c2d-c1e6-42f4-9997-a91a97cce22d" />
 <img width="1853" height="1000" alt="ex7_5" src="https://github.com/user-attachments/assets/b416a229-c685-4582-bd7d-c4ba580cce11" />
