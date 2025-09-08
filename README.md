@@ -10,6 +10,8 @@
 <img width="1853" height="1000" alt="ex7_7" src="https://github.com/user-attachments/assets/87df6b6d-b8ad-4a6c-9fd3-38d72f2857c3" />
 <img width="1853" height="1000" alt="ex7_8" src="https://github.com/user-attachments/assets/5b1cc25f-0082-4b5e-86fe-45be4f7746bd" />
 <img width="1853" height="1000" alt="ex7_8_3" src="https://github.com/user-attachments/assets/68dd3423-9409-409d-9190-420c67212fa8" />
+<img width="1856" height="1008" alt="ex7_currency" src="https://github.com/user-attachments/assets/3ce313b0-b3bc-4484-8121-68fb31129622" />
+
 
 <img width="1853" height="1000" alt="ex7_9" src="https://github.com/user-attachments/assets/52613e81-4572-416e-8671-dd4052f3836b" />
 <img width="1853" height="1000" alt="ex7_9_1" src="https://github.com/user-attachments/assets/1ee3d7d5-ce0d-4930-a82b-eba437fd37eb" />
