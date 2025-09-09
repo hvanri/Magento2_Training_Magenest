@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <!-- Columns -->
+    <settings>
+        <buttons>
+            <button name="export_orders_all">
+                <url path="magenest_movie/order/export"/>
+                <label translate="true">Export CSV File</label>
+                <class>action-secondary export-order-grid</class>
+            </button>
+        </buttons>
+    </settings>
     <columns name="sales_order_columns">
         <column name="odd_or_even" class="Magenest\Movie\Ui\Component\Listing\Column\OddEven">
             <settings>
-                <label translate="true">Odd/Even</label>
+                <label translate="true">Odd/Even1</label>
                 <filter>text</filter>
                 <sortable>false</sortable>
                 <!-- Render HTML -->
@@ -11,4 +22,14 @@
             </settings>
         </column>
     </columns>
+    <listingToolbar name="listing_top">
+        <massaction name="listing_massaction" component="Magento_Ui/js/grid/massactions">
+            <action name="order_preparation">
+                <settings>
+                    <label translate="true">Orders processed1</label>
+                    <url path="movie/order/exportCsv"/>
+                </settings>
+            </action>
+        </massaction>
+    </listingToolbar>
 </listing>

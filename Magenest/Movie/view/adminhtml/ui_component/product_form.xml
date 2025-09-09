@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <fieldset name="magenest">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Magenest Custom Fields</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="dataScope" xsi:type="string">data.magenest</item>
+                <item name="sortOrder" xsi:type="number">1</item>
+            </item>
+        </argument>
+<!--        <field name="status">-->
+<!--            <argument name="data" xsi:type="array">-->
+<!--                <item name="config" xsi:type="array">-->
+<!--                    <item name="label" xsi:type="string" translate="true">Status</item>-->
+<!--                    <item name="dataScope" xsi:type="string">status</item>-->
+<!--                    <item name="sortOrder" xsi:type="number">10</item>-->
+<!--                    <item name="componentType" xsi:type="string">field</item>-->
+<!--                    <item name="dataType" xsi:type="string">text</item>-->
+<!--                    <item name="formElement" xsi:type="string">select</item>-->
+<!--                    <item name="options" xsi:type="array">-->
+<!--                        <item name="0" xsi:type="array">-->
+<!--                            <item name="value" xsi:type="number">0</item>-->
+<!--                            <item name="label" xsi:type="string">Inactive</item>-->
+<!--                        </item>-->
+<!--                        <item name="1" xsi:type="array">-->
+<!--                            <item name="value" xsi:type="number">1</item>-->
+<!--                            <item name="label" xsi:type="string">Active</item>-->
+<!--                        </item>-->
+<!--                    </item>-->
+<!--                    <item name="validation" xsi:type="array">-->
+<!--                        <item name="required-entry" xsi:type="boolean">true</item>-->
+<!--                    </item>-->
+<!--                </item>-->
+<!--            </argument>-->
+<!--        </field>-->
+<!--        <field name="textField">-->
+<!--            <argument name="data" xsi:type="array">-->
+<!--                <item name="config" xsi:type="array">-->
+<!--                    <item name="label" xsi:type="string" translate="true">Text Field</item>-->
+<!--                    <item name="dataScope" xsi:type="string">textField</item>-->
+<!--                    <item name="sortOrder" xsi:type="number">20</item>-->
+<!--                    <item name="componentType" xsi:type="string">field</item>-->
+<!--                    <item name="dataType" xsi:type="string">text</item>-->
+<!--                    <item name="formElement" xsi:type="string">input</item>-->
+<!--                    <item name="validation" xsi:type="array">-->
+<!--                        <item name="required-entry" xsi:type="boolean">true</item>-->
+<!--                    </item>-->
+<!--                </item>-->
+<!--            </argument>-->
+<!--        </field>-->
+    </fieldset>
+    <fieldset name="product-details">
+        <field name="course_start">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">datetime</item>
+                    <item name="formElement" xsi:type="string">date</item>
+                    <item name="label" xsi:type="string" translate="true">Course Start</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataScope" xsi:type="string">course_start</item>
+                    <item name="options" xsi:type="array">
+                        <item name="dateFormat" xsi:type="string">yyyy-MM-dd</item>
+                        <item name="timeFormat" xsi:type="string">HH:mm:ss</item>
+                        <item name="beforeShowDay" xsi:type="js">
+                            function(date) { var day = date.getDate(); return [(day >= 8 && day <= 12), '']; }
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="course_end">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">datetime</item>
+                    <item name="formElement" xsi:type="string">date</item>
+                    <item name="label" xsi:type="string" translate="true">Course End</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataScope" xsi:type="string">course_end</item>
+                    <item name="options" xsi:type="array">
+                        <item name="dateFormat" xsi:type="string">yyyy-MM-dd HH:mm:ss</item>
+                        <item name="timeFormat" xsi:type="string">HH:mm:ss</item>
+                        <item name="minDate" xsi:type="string">1</item>
+                        <item name="maxDate" xsi:type="string">5</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+</form>

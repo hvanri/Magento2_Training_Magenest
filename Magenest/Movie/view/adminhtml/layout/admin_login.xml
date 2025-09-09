@@ -4,7 +4,7 @@
     <body>
         <referenceBlock name="logo">
             <arguments>
-                <argument name="logo_image_src" xsi:type="string">images/logo_magenest_2.png</argument>
+                <argument name="logo_image_src" xsi:type="string">Magenest_Movie::images/logo_magenest_2.png</argument>
             </arguments>
         </referenceBlock>
     </body>

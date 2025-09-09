@@ -1,0 +1,52 @@
+<?php
+/** @var $block \Magenest\Movie\Block\Adminhtml\Product\Edit\CoursePeriod */
+$product = $block->getProduct();
+$courseStart = $product ? $product->getData('course_start') : '';
+$courseEnd   = $product ? $product->getData('course_end') : '';
+?>
+
+<div class="admin__field field field-course_period">
+    <label class="label admin__field-label">
+        <span><?= __('Course Period') ?></span>
+    </label>
+    <div class="admin__field-control">
+        <input type="text" id="course_period" name="course_period"
+               value="<?= $courseStart && $courseEnd ? $courseStart . ' - ' . $courseEnd : '' ?>"
+               class="admin__control-text"/>
+    </div>
+</div>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'moment',
+        'daterangepicker'
+    ], function ($, moment) {
+        $('#course_period').daterangepicker({
+            autoUpdateInput: true,
+            locale: { format: 'YYYY-MM-DD' },
+            startDate: "<?= $courseStart ?>",
+            endDate: "<?= $courseEnd ?>"
+        });
+
+        // khi chọn xong thì append hidden input để Magento save vào attribute
+        $('#course_period').on('apply.daterangepicker', function(ev, picker) {
+            // xóa hidden cũ tránh duplicate
+            $('#course_start, #course_end').remove();
+
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'course_start',
+                name: 'product[course_start]',
+                value: picker.startDate.format('YYYY-MM-DD')
+            }).appendTo('#edit_form');
+
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'course_end',
+                name: 'product[course_end]',
+                value: picker.endDate.format('YYYY-MM-DD')
+            }).appendTo('#edit_form');
+        });
+    });
+</script>

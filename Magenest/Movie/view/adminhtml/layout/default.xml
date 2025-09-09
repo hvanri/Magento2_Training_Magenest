@@ -7,7 +7,7 @@
                 <arguments>
                     <argument name="show_part" xsi:type="string">logo</argument>
                     <argument name="edition" translate="true" xsi:type="string">Community Edition</argument>
-                    <argument name="logo_image_src" xsi:type="string">images/logo_magenest_2.png</argument>
+                    <argument name="logo_image_src" xsi:type="string">Magenest_Movie::images/magenest_logo_1.png</argument>
                 </arguments>
             </block>
         </referenceContainer>
