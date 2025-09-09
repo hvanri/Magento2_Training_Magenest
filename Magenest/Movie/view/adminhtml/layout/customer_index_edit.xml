@@ -1,0 +1,25 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left"
+      xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+<!--    <body>-->
+<!--        <referenceBlock name="customer_form">-->
+<!--            <arguments>-->
+<!--                <argument name="additionalTabs" xsi:type="array">-->
+<!--                    <item name="vendor_customer_tab" xsi:type="array">-->
+<!--                        <item name="label" xsi:type="string" translate="true">Custom Tab</item>-->
+<!--                        <item name="sortOrder" xsi:type="number">100</item>-->
+<!--                        <item name="class" xsi:type="string">Magenest\Movie\Block\Adminhtml\Customer\Edit\Tab\Custom</item>-->
+<!--                    </item>-->
+<!--                </argument>-->
+<!--            </arguments>-->
+<!--        </referenceBlock>-->
+<!--    </body>-->
+    <body>
+        <referenceBlock name="customer_form">
+            <block class="Magenest\Movie\Block\Adminhtml\Customer\Edit\Tab\Custom" name="customer_edit_tab">
+                <action method="setTabLabel">
+                    <argument name="label" xsi:type="string">Custom Tab</argument>
+                </action>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

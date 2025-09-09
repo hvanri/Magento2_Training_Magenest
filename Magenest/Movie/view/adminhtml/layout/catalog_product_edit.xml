@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+
+    <head>
+        <!-- CSS daterangepicker -->
+        <css src="Magenest_Movie::css/daterangepicker.css"/>
+        <!-- Nếu muốn load JS từ local -->
+    </head>
+<!--    <body>-->
+<!--        <referenceBlock name="content">-->
+<!--            <block class="Magenest\Movie\Block\Adminhtml\Product\Edit\CoursePeriod"-->
+<!--                   name="course_period_block"-->
+<!--                   template="Magenest_Movie::course/period.phtml"/>-->
+<!--        </referenceBlock>-->
+<!--    </body>-->
+</page>
