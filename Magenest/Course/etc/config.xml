@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <course_access>
+            <general>
+                <enabled>0</enabled>
+                <default_access_days>30</default_access_days>
+            </general>
+            <customer_group_rules>
+                <access_rules></access_rules>
+            </customer_group_rules>
+            <advanced>
+                <access_notification>0</access_notification>
+                <notification_days_before>7</notification_days_before>
+            </advanced>
+        </course_access>
+    </default>
+</config>

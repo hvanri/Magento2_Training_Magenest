@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <!-- Tạo tab mới -->
+        <tab id="magenest_course" translate="label" sortOrder="200">
+            <label>Magenest Course Management</label>
+        </tab>
+
+        <!-- Tạo section trong tab -->
+        <section id="course_access" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Course Access Settings</label>
+            <tab>magenest_course</tab>
+            <resource>Magenest_Course::course_config</resource>
+
+            <!-- Group chung -->
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+
+                <!-- Enable/Disable -->
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Course Access Control</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable or disable course access time control</comment>
+                </field>
+
+                <!-- Default access days -->
+                <field id="default_access_days" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Default Access Days</label>
+                    <validate>validate-digits validate-zero-or-greater</validate>
+                    <comment>Default number of days for course access (0 = unlimited)</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <!-- Group cho Customer Group Rules -->
+            <group id="customer_group_rules" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Customer Group Access Rules</label>
+
+                <!-- Custom field array cho rules -->
+                <field id="access_rules" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Access Rules by Customer Group</label>
+                    <frontend_model>Magenest\Course\Block\System\Config\Form\Field\CourseAccessArray</frontend_model>
+                    <backend_model>Magenest\Course\Model\Config\Backend\CourseAccess</backend_model>
+                    <comment>Set specific access duration for each customer group</comment>
+                    <depends>
+                        <field id="course_access/general/enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <!-- Group Advanced Settings -->
+            <group id="advanced" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Advanced Settings</label>
+
+                <field id="access_notification" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Send Access Expiry Notifications</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Send email notification before course access expires</comment>
+                    <depends>
+                        <field id="course_access/general/enabled">1</field>
+                    </depends>
+                </field>
+
+                <field id="notification_days_before" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Notification Days Before Expiry</label>
+                    <validate>validate-digits validate-greater-than-zero</validate>
+                    <comment>Number of days before expiry to send notification</comment>
+                    <depends>
+                        <field id="course_access/general/enabled">1</field>
+                        <field id="access_notification">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

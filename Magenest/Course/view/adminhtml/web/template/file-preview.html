@@ -1,0 +1,106 @@
+<!-- ko if: ($data.url) -->
+<div class="file-uploader-preview">
+    <div class="file-uploader-filename">
+        <span class="file-uploader-filename-text" data-bind="text: $data.name"></span>
+        <!-- ko if: ($data.size_formatted) -->
+        <span class="file-uploader-filesize" data-bind="text: '(' + $data.size_formatted + ')'"></span>
+        <!-- /ko -->
+    </div>
+
+    <!-- Image Preview -->
+    <!-- ko if: ($data.previewType && $data.previewType === 'image') -->
+    <div class="file-uploader-preview-image">
+        <img data-bind="attr: {src: $data.url, alt: $data.name}" style="max-width: 100px; max-height: 100px;" />
+    </div>
+    <!-- /ko -->
+
+    <!-- File Icon for Documents -->
+    <!-- ko if: (!$data.previewType || $data.previewType !== 'image') -->
+    <div class="file-uploader-preview-document">
+        <!-- ko if: ($data.name && $data.name.toLowerCase().indexOf('.pdf') > -1) -->
+        <div class="file-icon pdf-icon">📄</div>
+        <!-- /ko -->
+        <!-- ko if: ($data.name && ($data.name.toLowerCase().indexOf('.doc') > -1 || $data.name.toLowerCase().indexOf('.docx') > -1)) -->
+        <div class="file-icon doc-icon">📝</div>
+        <!-- /ko -->
+        <!-- ko if: ($data.name && ($data.name.toLowerCase().indexOf('.mp4') > -1 || $data.name.toLowerCase().indexOf('.avi') > -1 || $data.name.toLowerCase().indexOf('.mov') > -1)) -->
+        <div class="file-icon video-icon">🎥</div>
+        <!-- /ko -->
+        <!-- ko if: ($data.name && !$data.name.match(/\.(pdf|doc|docx|mp4|avi|mov)$/i)) -->
+        <div class="file-icon generic-icon">📁</div>
+        <!-- /ko -->
+    </div>
+    <!-- /ko -->
+
+    <!-- Download Link -->
+    <div class="file-uploader-actions">
+        <a data-bind="attr: {href: $data.url, download: $data.name}" target="_blank" class="action-download">
+            <span>Download</span>
+        </a>
+    </div>
+</div>
+<!-- /ko -->
+
+<!-- Upload Progress -->
+<!-- ko if: ($data.file && $data.file.previewType) -->
+<div class="file-uploader-spinner">
+    <span>Uploading...</span>
+</div>
+<!-- /ko -->
+
+<style>
+    .file-uploader-preview {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 3px;
+        background: #f9f9f9;
+    }
+
+    .file-uploader-filename {
+        margin-bottom: 5px;
+    }
+
+    .file-uploader-filename-text {
+        font-weight: bold;
+    }
+
+    .file-uploader-filesize {
+        color: #666;
+        font-size: 11px;
+        margin-left: 5px;
+    }
+
+    .file-uploader-preview-image img {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+    }
+
+    .file-icon {
+        font-size: 24px;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .action-download {
+        display: inline-block;
+        background: #007bdb;
+        color: white;
+        padding: 4px 8px;
+        text-decoration: none;
+        border-radius: 3px;
+        font-size: 11px;
+    }
+
+    .action-download:hover {
+        background: #0056b3;
+        color: white;
+        text-decoration: none;
+    }
+
+    .file-uploader-spinner {
+        text-align: center;
+        color: #666;
+        font-style: italic;
+    }
+</style>

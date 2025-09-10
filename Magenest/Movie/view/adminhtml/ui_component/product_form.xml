@@ -68,9 +68,9 @@
                     <item name="options" xsi:type="array">
                         <item name="dateFormat" xsi:type="string">yyyy-MM-dd</item>
                         <item name="timeFormat" xsi:type="string">HH:mm:ss</item>
-                        <item name="beforeShowDay" xsi:type="js">
-                            function(date) { var day = date.getDate(); return [(day >= 8 && day <= 12), '']; }
-                        </item>
+<!--                        <item name="beforeShowDay" xsi:type="js">-->
+<!--                            function(date) { var day = date.getDate(); return [(day >= 8 && day <= 12), '']; }-->
+<!--                        </item>-->
                     </item>
                 </item>
             </argument>
