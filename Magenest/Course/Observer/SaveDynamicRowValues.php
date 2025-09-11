@@ -1,6 +1,6 @@
 <?php
 namespace Magenest\Course\Observer;
-use Magenest\Course\Ui\DataProvider\Product\Form\Modifier\DynamicRowAttributeBackup;
+use Magenest\Course\Ui\DataProvider\Product\Form\Modifier\DynamicRowAttribute;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\App\RequestInterface;
@@ -23,43 +23,69 @@ class SaveDynamicRowValues implements ObserverInterface
      * @param Observer $observer
      * @return this
      */
-    public function execute(Observer $observer)
+    public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        /** @var $product \Magento\Catalog\Model\Product */
+        /** @var \Magento\Catalog\Model\Product $product */
         $product = $observer->getEvent()->getDataObject();
         $wholeRequest = $this->request->getPost();
-        $post = $wholeRequest['product'];
-        if (empty($post)) {
-            $post = !empty($wholeRequest['variables']['product']) ? $wholeRequest['variables']['product'] : [];
+        $post = $wholeRequest['product'] ?? [];
+
+        // Fallback nếu không có post chính
+        if (empty($post) && !empty($wholeRequest['variables']['product'])) {
+            $post = $wholeRequest['variables']['product'];
         }
-        $highlights = isset(
-            $post[DynamicRowAttributeBackup::PRODUCT_ATTRIBUTE_CODE]
-        ) ? $post[DynamicRowAttributeBackup::PRODUCT_ATTRIBUTE_CODE] : '';
-        $product->setDynamicRowAttribute($highlights);
-        $requiredParams = ['title', 'value'];
-        if (is_array($highlights)) {
-            $highlights = $this->removeEmptyArray($highlights, $requiredParams);
-            $product->setDynamicRowAttribute($this->serializer->serialize($highlights));
+
+        // Danh sách các attribute cần xử lý
+        $attributes = [
+            //DynamicRowAttribute::PRODUCT_ATTRIBUTE_OLD_CODE,
+            DynamicRowAttribute::PRODUCT_ATTRIBUTE_FILE_CODE,
+            DynamicRowAttribute::PRODUCT_ATTRIBUTE_TEXT_CODE
+        ];
+
+        foreach ($attributes as $attributeCode) {
+            $dynamicData = $post[$attributeCode] ?? null;
+
+            if (is_array($dynamicData)) {
+                // Xóa các record rỗng theo các trường bắt buộc
+                $requiredParams = ['title', 'file'];
+                if($attributeCode == DynamicRowAttribute::PRODUCT_ATTRIBUTE_TEXT_CODE) {
+                    $requiredParams = ['title', 'content'];
+                }
+                $cleanData = $this->removeEmptyArray($dynamicData, $requiredParams, $attributeCode);
+
+                if (!empty($cleanData)) {
+                    // Lưu dưới dạng JSON (serialize)
+                    $product->setData($attributeCode, $this->serializer->serialize($cleanData));
+                } else {
+                    $product->setData($attributeCode, null);
+                }
+            }
         }
     }
+
     /**
-     * Function to remove empty array from the multi dimensional array
+     * Loại bỏ các record rỗng trong array
      *
-     * @param array $attractionData
+     * @param array $data
      * @param array $requiredParams
      * @return array
      */
-    private function removeEmptyArray($attractionData, $requiredParams)
+    private function removeEmptyArray(array $data, array $requiredParams, $attributeCode): array
     {
         $requiredParams = array_combine($requiredParams, $requiredParams);
         $reqCount = count($requiredParams);
-        foreach ($attractionData as $key => $values) {
-            $values = array_filter($values);
-            $intersectCount = count(array_intersect_key($values, $requiredParams));
-            if ($reqCount !== $intersectCount) {
-                unset($attractionData[$key]);
+
+        foreach ($data[$attributeCode] as $key => $values) {
+            $valid = false;
+            $intersectCount = count(array_intersect_key(array_filter($values), $requiredParams));
+            if ($intersectCount === $reqCount) {
+                $valid = true;
+            }
+            if (!$valid) {
+                unset($data[$attributeCode][$key]);
             }
         }
-        return $attractionData;
+
+        return $data;
     }
 }

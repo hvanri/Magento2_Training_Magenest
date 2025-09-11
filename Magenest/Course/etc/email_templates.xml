@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+
+    <template id="course_email_purchase_success_template"
+              label="Course Purchase Success Email"
+              file="course_purchase_success.html"
+              type="html"
+              module="Magenest_Course"
+              area="frontend"/>
+</config>

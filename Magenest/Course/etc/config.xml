@@ -15,5 +15,12 @@
                 <notification_days_before>7</notification_days_before>
             </advanced>
         </course_access>
+        <course_email>
+            <purchase_success>
+                <enabled>1</enabled>
+                <template>course_email_purchase_success_template</template>
+                <sender>general</sender>
+            </purchase_success>
+        </course_email>
     </default>
 </config>

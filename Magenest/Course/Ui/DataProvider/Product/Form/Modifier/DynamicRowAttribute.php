@@ -1,9 +1,9 @@
 <?php
 namespace Magenest\Course\Ui\DataProvider\Product\Form\Modifier;
 use Magento\Catalog\Model\Locator\LocatorInterface;
-use Magento\Catalog\Model\ResourceModel\Product\AttributeSet\Collection as AttributeSetCollection;
+use Magento\Eav\Model\ResourceModel\Entity\Attribute\Set\CollectionFactory as AttributeSetCollection;
 use Magento\Ui\Component\Container;
-use Magento\Ui\Component\DynamicRows\DynamicRows;
+use Magento\Ui\Component\DynamicRows;
 use Magento\Ui\Component\Form\Field;
 use Magento\Ui\Component\Form\Element\Input;
 use Magento\Ui\Component\Form\Element\DataType\Text;
@@ -45,15 +45,24 @@ class DynamicRowAttribute implements ModifierInterface
         $modelId = $model->getId();
 
         $attributes = [
-            self::PRODUCT_ATTRIBUTE_OLD_CODE,
+            //self::PRODUCT_ATTRIBUTE_OLD_CODE,
             self::PRODUCT_ATTRIBUTE_FILE_CODE,
             self::PRODUCT_ATTRIBUTE_TEXT_CODE
         ];
 
         foreach ($attributes as $attributeCode) {
             $attrData = $model->getData($attributeCode);
+
             if ($attrData) {
-                $attrData = $this->serializer->unserialize($attrData);
+                // Chỉ unserialize nếu là string
+                if (is_string($attrData)) {
+                    try {
+                        $attrData = $this->serializer->unserialize($attrData);
+                    } catch (\Exception $e) {
+                        // Nếu lỗi unserialize thì giữ nguyên dữ liệu
+                    }
+                }
+
                 $path = $modelId . '/' . self::DATA_SOURCE_DEFAULT . '/' . $attributeCode;
                 $data = $this->arrayManager->set($path, $data, $attrData);
             }
@@ -70,7 +79,7 @@ class DynamicRowAttribute implements ModifierInterface
      */
     public function modifyMeta(array $meta)
     {
-        $meta = $this->mergeDynamicRowMeta($meta, self::PRODUCT_ATTRIBUTE_OLD_CODE, __('Course Materials'), ['title', 'file']);
+        //$meta = $this->mergeDynamicRowMeta($meta, self::PRODUCT_ATTRIBUTE_OLD_CODE, __('Course Materials'), ['title', 'file']);
         $meta = $this->mergeDynamicRowMeta($meta, self::PRODUCT_ATTRIBUTE_FILE_CODE, __('Course File Materials'), ['title', 'file']);
         $meta = $this->mergeDynamicRowMeta($meta, self::PRODUCT_ATTRIBUTE_TEXT_CODE, __('Course Text Materials'), ['title', 'content']);
 
