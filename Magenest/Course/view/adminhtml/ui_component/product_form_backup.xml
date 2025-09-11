@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<!-- Dynamic Rows cho tài liệu khóa học -->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:Ui/etc/ui_configuration.xsd">
+
+    <fieldset name="course-materials-fieldset" sortOrder="1">
+        <settings>
+            <label translate="true">Course Materials</label>
+            <collapsible>true</collapsible>
+            <opened>false</opened>
+        </settings>
+        <!--        <field name="course_materials" formElement="dynamicRows">-->
+        <!--            <settings>-->
+        <!--                <dataType>text</dataType>-->
+        <!--                <label translate="true">Course Materials</label>-->
+        <!--                <componentType>dynamicRows</componentType>-->
+        <!--&lt;!&ndash;                <addButtonLabel translate="true">Add Material</addButtonLabel>&ndash;&gt;-->
+        <!--            </settings>-->
+
+        <!--            <container name="record" component="Magento_Ui/js/dynamic-rows/record">-->
+        <!--                <argument name="data" xsi:type="array">-->
+        <!--                    <item name="config" xsi:type="array">-->
+        <!--                        <item name="isTemplate" xsi:type="boolean">true</item>-->
+        <!--                        <item name="is_collection" xsi:type="boolean">true</item>-->
+        <!--                        <item name="componentType" xsi:type="string">container</item>-->
+        <!--                    </item>-->
+        <!--                </argument>-->
+
+        <!--                &lt;!&ndash; Title &ndash;&gt;-->
+        <!--                <field name="title" formElement="input">-->
+        <!--                    <settings>-->
+        <!--                        <dataType>text</dataType>-->
+        <!--                        <label translate="true">Title</label>-->
+        <!--                    </settings>-->
+        <!--                </field>-->
+
+        <!--                &lt;!&ndash; File &ndash;&gt;-->
+        <!--                <field name="file" formElement="fileUploader">-->
+        <!--                    <settings>-->
+        <!--                        <dataType>text</dataType>-->
+        <!--                        <label translate="true">File</label>-->
+        <!--                        <uploaderConfig>-->
+        <!--                            <param name="url" xsi:type="url" path="magenest_course/material/upload"/>-->
+        <!--                        </uploaderConfig>-->
+        <!--                    </settings>-->
+        <!--                </field>-->
+
+        <!--                &lt;!&ndash; Delete &ndash;&gt;-->
+        <!--                <actionDelete>-->
+        <!--                    <settings>-->
+        <!--                        <dataType>text</dataType>-->
+        <!--                        <label translate="true">Actions</label>-->
+        <!--                        <componentType>actionDelete</componentType>-->
+        <!--                    </settings>-->
+        <!--                </actionDelete>-->
+        <!--            </container>-->
+        <!--        </field>-->
+        <!--         Dynamic Rows Component-->
+        <dynamicRows name="course_materials" sortOrder="10">
+            <settings>
+                <addButtonLabel translate="true">Add New Material</addButtonLabel>
+                <label translate="true">Course Materials</label>
+                <componentType>dynamicRows</componentType>
+            </settings>
+
+            <!-- Record Template -->
+            <container name="record" component="Magento_Ui/js/dynamic-rows/record">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="isTemplate" xsi:type="boolean">true</item>
+                        <item name="is_collection" xsi:type="boolean">true</item>
+                        <item name="componentType" xsi:type="string">container</item>
+                        <item name="positionProvider" xsi:type="string">sort_order</item>
+                    </item>
+                </argument>
+
+                <!-- Title Field -->
+                <field name="title" formElement="input" sortOrder="10">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="fit" xsi:type="boolean">false</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <validation>
+                            <rule name="required-entry" xsi:type="boolean">true</rule>
+                        </validation>
+                        <dataType>text</dataType>
+                        <label translate="true">Title</label>
+                        <dataScope>title</dataScope>
+                    </settings>
+                </field>
+
+                <!-- Description Field -->
+                <!--                <field name="description" formElement="textarea" sortOrder="20">-->
+                <!--                    <argument name="data" xsi:type="array">-->
+                <!--                        <item name="config" xsi:type="array">-->
+                <!--                            <item name="fit" xsi:type="boolean">false</item>-->
+                <!--                        </item>-->
+                <!--                    </argument>-->
+                <!--                    <settings>-->
+                <!--                        <dataType>text</dataType>-->
+                <!--                        <label translate="true">Description</label>-->
+                <!--                        <dataScope>description</dataScope>-->
+                <!--                    </settings>-->
+                <!--                </field>-->
+
+                <!-- File Upload Field -->
+                <field name="file" formElement="fileUploader" sortOrder="30">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="fit" xsi:type="boolean">false</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <label translate="true">Upload File</label>
+                        <dataScope>file</dataScope>
+                    </settings>
+                    <formElements>
+                        <fileUploader>
+                            <settings>
+                                <allowedExtensions>pdf doc docx jpg jpeg png gif mp4 avi mov</allowedExtensions>
+                                <maxFileSize>10485760</maxFileSize>
+                                <uploaderConfig>
+                                    <param xsi:type="string" name="url">magenest_course/material/file</param>
+                                </uploaderConfig>
+                                <previewTmpl>Magenest_Course/file-preview</previewTmpl>
+                                <notice translate="true">Allowed file types: PDF, DOC, Images, Videos (Max: 10MB)</notice>
+                            </settings>
+                        </fileUploader>
+                    </formElements>
+                </field>
+
+                <!-- Sort Order Field -->
+                <!--                <field name="sort_order" formElement="input" sortOrder="40">-->
+                <!--                    <argument name="data" xsi:type="array">-->
+                <!--                        <item name="config" xsi:type="array">-->
+                <!--                            <item name="fit" xsi:type="boolean">false</item>-->
+                <!--                        </item>-->
+                <!--                    </argument>-->
+                <!--                    <settings>-->
+                <!--                        <validation>-->
+                <!--                            <rule name="validate-digits" xsi:type="boolean">true</rule>-->
+                <!--                        </validation>-->
+                <!--                        <dataType>number</dataType>-->
+                <!--                        <label translate="true">Sort Order</label>-->
+                <!--                        <dataScope>sort_order</dataScope>-->
+                <!--                    </settings>-->
+                <!--                </field>-->
+
+                <!-- Action Delete -->
+                <actionDelete sortOrder="50">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="componentType" xsi:type="string">actionDelete</item>
+                            <item name="dataType" xsi:type="string">text</item>
+                            <item name="label" xsi:type="string">Actions</item>
+                            <item name="fit" xsi:type="boolean">false</item>
+                        </item>
+                    </argument>
+                </actionDelete>
+            </container>
+        </dynamicRows>
+
+        <!-- Additional Comments Field -->
+        <field name="materials_note" formElement="textarea" sortOrder="20">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Additional Comments</label>
+                <dataScope>materials_note</dataScope>
+                <notice translate="true">Any additional notes about the course materials</notice>
+            </settings>
+        </field>
+
+    </fieldset>
+</form>

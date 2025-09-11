@@ -1,0 +1,17 @@
+{
+  "name": "magenest/module-course",
+  "version": "1.0.0",
+  "description": "by Ha Van Ri",
+  "type": "magento2-module",
+  "require": {
+    "magento/framework": "*"
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Magenest\\Course\\": ""
+    }
+  }
+}
