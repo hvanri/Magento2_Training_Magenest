@@ -2,19 +2,19 @@
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
 
-    <table name="course_materials" resource="default" engine="innodb" comment="Course Materials Table">
-        <column xsi:type="int" name="material_id" nullable="false" identity="true" unsigned="true" comment="Material ID"/>
-        <column xsi:type="int" name="product_id" nullable="false" unsigned="true" comment="Product ID"/>
-        <column xsi:type="varchar" name="title" nullable="false" length="255" comment="Material Title"/>
-        <column xsi:type="varchar" name="file" nullable="true" length="255" comment="File Path"/>
+<!--    <table name="course_materials" resource="default" engine="innodb" comment="Course Materials Table">-->
+<!--        <column xsi:type="int" name="material_id" nullable="false" identity="true" unsigned="true" comment="Material ID"/>-->
+<!--        <column xsi:type="int" name="product_id" nullable="false" unsigned="true" comment="Product ID"/>-->
+<!--        <column xsi:type="varchar" name="title" nullable="false" length="255" comment="Material Title"/>-->
+<!--        <column xsi:type="varchar" name="file" nullable="true" length="255" comment="File Path"/>-->
 
-        <constraint xsi:type="primary" referenceId="PRIMARY">
-            <column name="material_id"/>
-        </constraint>
+<!--        <constraint xsi:type="primary" referenceId="PRIMARY">-->
+<!--            <column name="material_id"/>-->
+<!--        </constraint>-->
 
-        <constraint xsi:type="foreign" referenceId="FK_COURSE_MATERIALS_PRODUCT_ID"
-                    table="course_materials" column="product_id"
-                    referenceTable="catalog_product_entity" referenceColumn="entity_id"
-                    onDelete="CASCADE"/>
-    </table>
+<!--        <constraint xsi:type="foreign" referenceId="FK_COURSE_MATERIALS_PRODUCT_ID"-->
+<!--                    table="course_materials" column="product_id"-->
+<!--                    referenceTable="catalog_product_entity" referenceColumn="entity_id"-->
+<!--                    onDelete="CASCADE"/>-->
+<!--    </table>-->
 </schema>

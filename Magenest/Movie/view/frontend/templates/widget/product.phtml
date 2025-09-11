@@ -1,0 +1,21 @@
+<?php
+/**
+ * Copyright © 2019 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_magento233_dev extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_magento233_dev
+ */
+/** @var $block Magenest\Movie\Block\Widget\ShowProduct*/
+$product = $block->getProductInformation();
+$titleWidget = $block->getTitle();
+?>
+<div>
+    <h2><?=$titleWidget?></h2>
+    <p>This is sample widget show information product.</p>
+    <h3>Product name: <?=$product->getName()?></h3>
+    <h3>Price : <?=$product->getFormattedPrice()?></h3>
+</div>

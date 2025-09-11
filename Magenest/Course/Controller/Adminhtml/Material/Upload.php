@@ -50,15 +50,15 @@ class Upload extends Action
 
         try {
             // Chuẩn hoá lại $_FILES để truyền vào uploader
-            $files = $_FILES['product']['name']['course_materials']['course_materials'] ?? [];
+            $files = $_FILES['product']['name']['course_file_materials']['course_file_materials'] ?? [];
             foreach ($files as $index => $row) {
                 if (!empty($row['file'])) {
                     $_FILES['file'] = [
-                        'name'     => $_FILES['product']['name']['course_materials']['course_materials'][$index]['file'],
-                        'type'     => $_FILES['product']['type']['course_materials']['course_materials'][$index]['file'],
-                        'tmp_name' => $_FILES['product']['tmp_name']['course_materials']['course_materials'][$index]['file'],
-                        'error'    => $_FILES['product']['error']['course_materials']['course_materials'][$index]['file'],
-                        'size'     => $_FILES['product']['size']['course_materials']['course_materials'][$index]['file'],
+                        'name'     => $_FILES['product']['name']['course_file_materials']['course_file_materials'][$index]['file'],
+                        'type'     => $_FILES['product']['type']['course_file_materials']['course_file_materials'][$index]['file'],
+                        'tmp_name' => $_FILES['product']['tmp_name']['course_file_materials']['course_file_materials'][$index]['file'],
+                        'error'    => $_FILES['product']['error']['course_file_materials']['course_file_materials'][$index]['file'],
+                        'size'     => $_FILES['product']['size']['course_file_materials']['course_file_materials'][$index]['file'],
                     ];
                     break; // chỉ xử lý 1 file upload mỗi request
                 }
@@ -81,7 +81,7 @@ class Upload extends Action
 
             // Thư mục lưu file
             $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-            $targetPath = $mediaDirectory->getAbsolutePath('course_materials/');
+            $targetPath = $mediaDirectory->getAbsolutePath('course_file_materials/');
 
             // Upload
             $result = $uploader->save($targetPath);
@@ -93,7 +93,7 @@ class Upload extends Action
 
             // Trả về URL file
             $mediaUrl = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
-            $filePath = 'course_materials' . $result['file'];
+            $filePath = 'course_file_materials' . $result['file'];
             $result['url'] = $mediaUrl . ltrim($filePath, '/');
 
             // Bổ sung size và format

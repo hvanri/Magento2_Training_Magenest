@@ -1,0 +1,71 @@
+<!--@subject Xác nhận mua khóa học thành công - Đơn hàng #{{var order_id}} @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var customer_name":"Customer Name",
+"var customer_email":"Customer Email",
+"var order_id":"Order ID",
+"var courses":"Course Items",
+"var store.frontend_name":"Store Name"}
+@-->
+
+{{template config_path="design/email/header_template"}}
+
+<table class="main-table" cellspacing="0" cellpadding="0" border="0" width="100%">
+    <tr>
+        <td class="main-content">
+            <h1>Chúc mừng bạn đã mua khóa học thành công!</h1>
+
+            <p>Xin chào <strong>{{var customer_name}}</strong>,</p>
+
+            <p>Cảm ơn bạn đã mua khóa học tại <strong>{{var store.frontend_name}}</strong>. Đơn hàng <strong>#{{var order_id}}</strong> của bạn đã được xử lý thành công.</p>
+
+            <h2>Thông tin khóa học đã mua:</h2>
+
+            {{depend courses}}
+            {{layout handle="course_email_items" courses=$courses}}
+
+            <table class="course-table" cellspacing="0" cellpadding="10" border="1" width="100%" style="border-collapse: collapse; border: 1px solid #ddd;">
+                <thead>
+                <tr style="background-color: #f8f9fa;">
+                    <th style="text-align: left; padding: 12px; border: 1px solid #ddd;">Tên khóa học</th>
+                    <th style="text-align: left; padding: 12px; border: 1px solid #ddd;">Mã khóa học</th>
+                    <th style="text-align: right; padding: 12px; border: 1px solid #ddd;">Giá</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            {{/depend}}
+
+            <h3>Tài liệu tham khảo kèm theo:</h3>
+            <p>Các tài liệu học tập và tài liệu tham khảo sẽ được cung cấp trong khu vực tài khoản của bạn sau khi đăng nhập.</p>
+
+            <div class="action-button" style="margin: 30px 0; text-align: center;">
+                <a href="{{store url="customer/account"}}"
+                style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">
+                Truy cập khóa học của tôi
+                </a>
+            </div>
+
+            <h3>Hướng dẫn truy cập khóa học:</h3>
+            <ol>
+                <li>Đăng nhập vào tài khoản của bạn</li>
+                <li>Vào mục "Khóa học của tôi"</li>
+                <li>Chọn khóa học bạn muốn học</li>
+                <li>Tải xuống tài liệu tham khảo kèm theo</li>
+            </ol>
+
+            <p>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua email này hoặc qua hotline hỗ trợ.</p>
+
+            <p>Chúc bạn học tập hiệu quả!</p>
+
+            <p>
+                Trân trọng,<br>
+                Đội ngũ {{var store.frontend_name}}
+            </p>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}
