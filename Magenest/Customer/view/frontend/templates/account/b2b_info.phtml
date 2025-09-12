@@ -1,0 +1,21 @@
+<div class="block block-dashboard-info">
+    <div class="block-title">
+        <strong><?= $block->escapeHtml(__('Account Type')) ?></strong>
+    </div>
+    <div class="block-content">
+        <div class="box box-information">
+            <strong class="box-title">
+                <span><?= $block->escapeHtml(__('Account Type')) ?></span>
+            </strong>
+            <div class="box-content">
+                <p>
+                    <?php if ($block->getB2BStatusLabel()): ?>
+                        <?= $block->escapeHtml($block->getB2BStatusLabel()) ?>
+                    <?php else: ?>
+                        <?= $block->escapeHtml(__('Not available')) ?>
+                    <?php endif; ?>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
