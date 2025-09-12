@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+
+    <body>
+        <referenceContainer name="page.top">
+            <block class="Magenest\Customer\Block\Banner"
+                   name="magenest_customer_b2b_banner_product"
+                   template="Magenest_Customer::banner.phtml"
+                   cacheable="false"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,48 @@
+<div class="field telephone required">
+    <label class="label" for="telephone">
+        <span><?= $block->escapeHtml(__('Telephone')) ?></span>
+    </label>
+    <div class="control">
+        <input type="text" name="telephone" id="telephone" value=""
+               title="<?= $block->escapeHtmlAttr(__('Telephone')) ?>"
+               class="input-text"
+               data-validate='{"required":true,"validate-phone-number":true}'>
+        <!-- container hiển thị message custom -->
+        <div class="custom-error-message" style="color:red; margin-top:5px; display:none;"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    require(['jquery', 'mage/validation'], function($){
+        'use strict';
+
+        $.validator.addMethod(
+            'validate-phone-number',
+            function (value) {
+                if (!value) return true;
+                value = value.replace(/\s+/g, '');
+                if (value.startsWith('+84')) value = '0' + value.substr(3);
+                return /^0\d{9}$/.test(value);
+            },
+            '' // message mặc định để trống vì chúng ta sẽ show custom
+        );
+
+        // Khi form submit
+        $('#form-validate').on('submit', function(e){
+            var $input = $('#telephone');
+            var isValid = $input.valid(); // dùng mage/validation
+            var $msg = $input.siblings('.custom-error-message');
+
+            if(!isValid){
+                $msg.text('Số điện thoại phải bắt đầu 0 hoặc +84 và có 10 chữ số').show();
+                e.preventDefault();
+            } else {
+                $msg.hide();
+            }
+        });
+
+        // Khi người dùng nhập lại, hide message
+        $('#telephone').on('input', function(){
+            $(this).siblings('.custom-error-message').hide();
+        });
+    });
+</script>

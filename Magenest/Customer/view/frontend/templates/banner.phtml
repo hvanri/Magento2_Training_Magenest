@@ -1,0 +1,9 @@
+<?php
+/** @var \Magenest\Customer\Block\Banner $block */
+?>
+<?php if ($block->shouldShowBanner()): ?>
+    <div class="magenest-customer-b2b-banner">
+        <img src="<?= $block->getViewFileUrl('Magenest_Customer::images/banner_2.jpg'); ?>"
+             alt="B2B Banner" />
+    </div>
+<?php endif; ?><?php

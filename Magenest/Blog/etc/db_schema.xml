@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <!-- Bảng Blog -->
+    <table name="magenest_blog" resource="default" engine="innodb" comment="Magenest Blog">
+        <column xsi:type="int" name="id" nullable="false" identity="true" unsigned="true" comment="Blog ID"/>
+        <column xsi:type="int" name="author_id" nullable="false" unsigned="true" comment="Admin User ID"/>
+        <column xsi:type="varchar" name="title" nullable="false" length="255" comment="Blog Title"/>
+        <column xsi:type="text" name="description" nullable="true" comment="Short Description"/>
+        <column xsi:type="text" name="content" nullable="false" comment="Content"/>
+        <column xsi:type="varchar" name="url_rewrite" nullable="false" length="255" comment="URL Rewrite"/>
+        <column xsi:type="smallint" name="status" nullable="false" default="1" comment="Status"/>
+        <column xsi:type="timestamp" name="create_at" nullable="false" default="CURRENT_TIMESTAMP" on_update="false" comment="Created At"/>
+        <column xsi:type="timestamp" name="update_at" nullable="false" default="CURRENT_TIMESTAMP" on_update="true" comment="Updated At"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+
+        <!-- Khóa ngoại tới admin_user -->
+        <constraint xsi:type="foreign" referenceId="MAGENEST_BLOG_ADMIN_USER_ID"
+                    table="magenest_blog" column="author_id"
+                    referenceTable="admin_user" referenceColumn="user_id"
+                    onDelete="CASCADE"/>
+
+        <!-- Index cho title -->
+        <index referenceId="MAGENEST_BLOG_TITLE_IDX">
+            <column name="title"/>
+        </index>
+
+        <!-- Index cho content -->
+        <index referenceId="MAGENEST_BLOG_CONTENT" indexType="fulltext">
+            <column name="content"/>
+        </index>
+    </table>
+
+    <!-- Bảng Category -->
+    <table name="magenest_category" resource="default" engine="innodb" comment="Magenest Blog Category">
+        <column xsi:type="int" name="id" nullable="false" identity="true" unsigned="true" comment="Category ID"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="255" comment="Category Name"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+
+        <!-- Index cho name -->
+        <index referenceId="MAGENEST_CATEGORY_NAME_IDX">
+            <column name="name"/>
+        </index>
+    </table>
+
+    <!-- Bảng Blog - Category Mapping -->
+    <table name="magenest_blog_category" resource="default" engine="innodb" comment="Magenest Blog To Category Relation">
+        <column xsi:type="int" name="blog_id" nullable="false" unsigned="true" comment="Blog ID"/>
+        <column xsi:type="int" name="category_id" nullable="false" unsigned="true" comment="Category ID"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="blog_id"/>
+            <column name="category_id"/>
+        </constraint>
+
+        <!-- Khóa ngoại tới blog -->
+        <constraint xsi:type="foreign" referenceId="MAGENEST_BLOG_CATEGORY_BLOG_ID"
+                    table="magenest_blog_category" column="blog_id"
+                    referenceTable="magenest_blog" referenceColumn="id"
+                    onDelete="CASCADE"/>
+
+        <!-- Khóa ngoại tới category -->
+        <constraint xsi:type="foreign" referenceId="MAGENEST_BLOG_CATEGORY_CATEGORY_ID"
+                    table="magenest_blog_category" column="category_id"
+                    referenceTable="magenest_category" referenceColumn="id"
+                    onDelete="CASCADE"/>
+    </table>
+
+</schema>

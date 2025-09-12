@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework/Event/etc/events.xsd">
+
+    <event name="magenest_blog_save_after">
+        <observer name="magenest_blog_clear_cache" instance="Magenest\Blog\Observer\ClearBlogCache" />
+    </event>
+
+</config>

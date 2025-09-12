@@ -1,0 +1,19 @@
+<!-- ko if: true -->
+<div class="field field-vn-region">
+    <label class="label" for="vn_region">
+        <span data-bind="i18n: 'Vùng miền'"></span>
+    </label>
+    <div class="control">
+        <select name="vn_region" class="select"
+                data-bind="options: [
+                                {value: 1, label: 'Miền Bắc'},
+                                {value: 2, label: 'Miền Trung'},
+                                {value: 3, label: 'Miền Nam'}
+                            ],
+                           optionsText: 'label',
+                           optionsValue: 'value',
+                           value: vn_region">
+        </select>
+    </div>
+</div>
+<!-- /ko -->
