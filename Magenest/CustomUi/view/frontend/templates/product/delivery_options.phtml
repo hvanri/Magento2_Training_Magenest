@@ -1,0 +1,201 @@
+<div class="delivery-options" id="delivery-options">
+    <h3><?= __('Delivery Options') ?></h3>
+
+    <div class="field delivery-type">
+        <label class="label">
+            <span><?= __('Choose Delivery Type') ?></span>
+        </label>
+        <div class="control">
+            <div class="delivery-radio-group">
+                <label class="radio-option">
+                    <input type="radio"
+                           name="delivery_time_type"
+                           value="same_day"
+                           id="same-day-delivery"
+                           onchange="toggleDeliveryDate()" />
+                    <span class="radio-label">
+                        <strong><?= __('Same Day Delivery') ?></strong>
+                        <small><?= __('Order before 2 PM to get delivery today') ?></small>
+                    </span>
+                </label>
+
+                <label class="radio-option">
+                    <input type="radio"
+                           name="delivery_time_type"
+                           value="scheduled"
+                           id="scheduled-delivery"
+                           onchange="toggleDeliveryDate()" />
+                    <span class="radio-label">
+                        <strong><?= __('Schedule Delivery') ?></strong>
+                        <small><?= __('Choose your preferred delivery date') ?></small>
+                    </span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="field delivery-date" id="delivery-date-field" style="display: none;">
+        <label class="label" for="delivery_date">
+            <span><?= __('Select Delivery Date') ?></span>
+        </label>
+        <div class="control">
+            <input type="date"
+                   id="delivery_date"
+                   name="delivery_date"
+                   min="<?= $block->getTomorrowDate() ?>"
+                   max="<?= $block->getMaxDeliveryDate() ?>"
+                   class="input-text" />
+            <div class="field-note">
+                <span><?= __('Available from tomorrow up to 30 days') ?></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .delivery-options {
+        margin: 20px 0;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background: #f9f9f9;
+    }
+
+    .delivery-options h3 {
+        margin: 0 0 15px 0;
+        color: #333;
+        font-size: 18px;
+    }
+
+    .delivery-radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .radio-option {
+        display: flex;
+        align-items: flex-start;
+        cursor: pointer;
+        padding: 15px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        background: white;
+        transition: all 0.3s ease;
+    }
+
+    .radio-option:hover {
+        border-color: #007bff;
+        box-shadow: 0 2px 8px rgba(0,123,255,0.1);
+    }
+
+    .radio-option input[type="radio"] {
+        margin-right: 12px;
+        margin-top: 2px;
+    }
+
+    .radio-option input[type="radio"]:checked + .radio-label {
+        color: #007bff;
+    }
+
+    .radio-option:has(input:checked) {
+        border-color: #007bff;
+        background: #f0f8ff;
+    }
+
+    .radio-label {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .radio-label strong {
+        margin-bottom: 4px;
+        font-size: 16px;
+    }
+
+    .radio-label small {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .delivery-date {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+    }
+
+    .delivery-date label {
+        font-weight: bold;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .delivery-date input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .delivery-date .field-note {
+        margin-top: 8px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    @media (max-width: 768px) {
+        .delivery-options {
+            margin: 10px 0;
+            padding: 15px;
+        }
+
+        .radio-option {
+            padding: 12px;
+        }
+    }
+</style>
+
+<script>
+    function toggleDeliveryDate() {
+        const scheduledRadio = document.getElementById('scheduled-delivery');
+        const deliveryDateField = document.getElementById('delivery-date-field');
+        const deliveryDateInput = document.getElementById('delivery_date');
+
+        if (scheduledRadio.checked) {
+            deliveryDateField.style.display = 'block';
+            deliveryDateInput.required = true;
+        } else {
+            deliveryDateField.style.display = 'none';
+            deliveryDateInput.required = false;
+            deliveryDateInput.value = '';
+        }
+    }
+
+    // Validation khi add to cart
+    require(['jquery'], function($) {
+        $(document).ready(function() {
+            // Override add to cart function
+            const originalSubmit = $('#product_addtocart_form').on('submit', function(e) {
+                const deliveryTypeSelected = $('input[name="delivery_time_type"]:checked').length > 0;
+
+                if (!deliveryTypeSelected) {
+                    e.preventDefault();
+                    alert('<?= __('Please select a delivery option') ?>');
+                    return false;
+                }
+
+                if ($('#scheduled-delivery').is(':checked')) {
+                    const deliveryDate = $('#delivery_date').val();
+                    if (!deliveryDate) {
+                        e.preventDefault();
+                        alert('<?= __('Please select delivery date') ?>');
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+        });
+    });
+</script>

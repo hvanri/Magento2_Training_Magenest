@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="order_tab_info">
+            <block class="Magento\Sales\Block\Adminhtml\Order\View\Items"
+                   name="order_items"
+                   template="Magento_Sales::order/view/items.phtml">
+
+                <!-- Khai báo tất cả cột -->
+                <arguments>
+                    <argument name="columns" xsi:type="array">
+                        <item name="product" xsi:type="string" translate="true">Product</item>
+                        <item name="status" xsi:type="string" translate="true">Item Status</item>
+                        <item name="price-original" xsi:type="string" translate="true">Original Price</item>
+                        <item name="price" xsi:type="string" translate="true">Price</item>
+                        <item name="ordered-qty" xsi:type="string" translate="true">Qty</item>
+
+                        <!-- Thêm 2 cột mới -->
+                        <item name="delivery_time_type" xsi:type="string" translate="true">Delivery Type</item>
+                        <item name="delivery_date" xsi:type="string" translate="true">Delivery Date</item>
+
+                        <item name="subtotal" xsi:type="string" translate="true">Subtotal</item>
+                        <item name="discount" xsi:type="string" translate="true">Discount Amount</item>
+                        <item name="total" xsi:type="string" translate="true">Row Total</item>
+                    </argument>
+                </arguments>
+
+                <!-- Renderer mặc định -->
+                <block class="Magenest\CustomUi\Block\Adminhtml\Sales\Order\View\Items\Renderer\DefaultRenderer"
+                       as="default"
+                       name="default_order_items_renderer"
+                       template="Magento_Sales::order/view/items/renderer/default.phtml">
+                    <arguments>
+                        <argument name="columns" xsi:type="array">
+                            <item name="product" xsi:type="string">col-product</item>
+                            <item name="status" xsi:type="string">col-status</item>
+                            <item name="price-original" xsi:type="string">col-price-original</item>
+                            <item name="price" xsi:type="string">col-price</item>
+                            <item name="qty" xsi:type="string">col-ordered-qty</item>
+
+                            <!-- Map class cho cột mới -->
+                            <item name="delivery_time_type" xsi:type="string">col-delivery_time_type</item>
+                            <item name="delivery_date" xsi:type="string">col-delivery_date</item>
+
+                            <item name="subtotal" xsi:type="string">col-subtotal</item>
+                            <item name="discont" xsi:type="string">col-discont</item>
+                            <item name="total" xsi:type="string">col-total</item>
+                        </argument>
+                    </arguments>
+                </block>
+
+                <!-- Các block có sẵn -->
+                <block class="Magento\Sales\Block\Adminhtml\Items\Column\Qty"
+                       name="column_qty"
+                       template="items/column/qty.phtml"
+                       group="column"/>
+                <block class="Magento\Sales\Block\Adminhtml\Items\Column\Name"
+                       name="column_name"
+                       template="items/column/name.phtml"
+                       group="column"/>
+
+                <!-- Renderer cho 2 cột mới -->
+                <block class="Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn"
+                       name="column_delivery_time_type"
+                       template="Magenest_CustomUi::order/items/renderer/delivery_time_type.phtml"
+                       group="column"/>
+
+                <block class="Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn"
+                       name="column_delivery_date"
+                       template="Magenest_CustomUi::order/items/renderer/delivery_date.phtml"
+                       group="column"/>
+
+                <block class="Magento\Framework\View\Element\Text\ListText"
+                       name="order_item_extra_info"/>
+            </block>
+        </referenceBlock>
+    </body>
+</page>
