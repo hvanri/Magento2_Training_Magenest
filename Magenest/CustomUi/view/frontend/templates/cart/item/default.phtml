@@ -1,0 +1,342 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate
+// phpcs:disable Generic.Files.LineLength
+
+/** @var $block \Magento\Checkout\Block\Cart\Item\Renderer */
+
+$_item = $block->getItem();
+$product = $_item->getProduct();
+$isVisibleProduct = $product->isVisibleInSiteVisibility();
+/** @var \Magento\Msrp\Helper\Data $helper */
+$helper = $this->helper(Magento\Msrp\Helper\Data::class);
+$canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinimalPriceLessMsrp($product);
+
+$deliveryTimeType = $block->getItem()->getDeliveryTimeType();
+$deliveryDate     = $block->getItem()->getDeliveryDate();
+?>
+<tbody class="cart item">
+<tr class="item-info">
+    <td data-th="<?= $block->escapeHtml(__('Item')) ?>" class="col item">
+        <?php if ($block->hasProductUrl()): ?>
+        <a href="<?= $block->escapeUrl($block->getProductUrl()) ?>"
+           title="<?= $block->escapeHtml($block->getProductName()) ?>"
+           tabindex="-1"
+           class="product-item-photo">
+            <?php else: ?>
+            <span class="product-item-photo">
+            <?php endif; ?>
+            <?= $block->getImage($block->getProductForThumbnail(), 'cart_page_product_thumbnail')->toHtml() ?>
+            <?php if ($block->hasProductUrl()): ?>
+        </a>
+    <?php else: ?>
+        </span>
+    <?php endif; ?>
+        <div class="product-item-details">
+            <strong class="product-item-name">
+                <?php if ($block->hasProductUrl()): ?>
+                    <a href="<?= $block->escapeUrl($block->getProductUrl()) ?>"><?= $block->escapeHtml($block->getProductName()) ?></a>
+                <?php else: ?>
+                    <?= $block->escapeHtml($block->getProductName()) ?>
+                <?php endif; ?>
+            </strong>
+            <?php if ($_options = $block->getOptionList()): ?>
+                <dl class="item-options">
+                    <?php foreach ($_options as $_option): ?>
+                        <?php $_formatedOptionValue = $block->getFormatedOptionValue($_option) ?>
+                        <dt><?= $block->escapeHtml($_option['label']) ?></dt>
+                        <dd>
+                            <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                                <?= $block->escapeHtml($_formatedOptionValue['full_view'], ['span', 'a']) ?>
+                            <?php else: ?>
+                                <?= $block->escapeHtml($_formatedOptionValue['value'], ['span', 'a']) ?>
+                            <?php endif; ?>
+                        </dd>
+                    <?php endforeach; ?>
+                </dl>
+            <?php endif; ?>
+            <?php if ($messages = $block->getMessages()): ?>
+                <?php foreach ($messages as $message): ?>
+                    <div class= "cart item message <?= $block->escapeHtmlAttr($message['type']) ?>">
+                        <div><?= $block->escapeHtml($message['text']) ?></div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+            <?php $addInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
+            <?php if ($addInfoBlock): ?>
+                <?= $addInfoBlock->setItem($_item)->toHtml() ?>
+            <?php endif; ?>
+        </div>
+    </td>
+
+    <?php if ($canApplyMsrp): ?>
+        <td class="col msrp" data-th="<?= $block->escapeHtml(__('Price')) ?>">
+                <span class="pricing msrp">
+                    <span class="msrp notice"><?= $block->escapeHtml(__('See price before order confirmation.')) ?></span>
+                    <?php $helpLinkId = 'cart-msrp-help-' . $_item->getId(); ?>
+                    <a href="#" class="action help map"
+                       id="<?= ($block->escapeHtmlAttr($helpLinkId)) ?>"
+                       data-mage-init='{"addToCart":{
+                                            "origin": "info",
+                                            "helpLinkId": "#<?= $block->escapeJs($block->escapeHtml($helpLinkId)) ?>",
+                                            "productName": "<?= $block->escapeJs($block->escapeHtml($product->getName())) ?>",
+                                            "showAddToCart": false
+                                            }
+                                        }'
+                    >
+                        <span><?= $block->escapeHtml(__("What's this?")) ?></span>
+                    </a>
+                </span>
+        </td>
+    <?php else: ?>
+        <td class="col price" data-th="<?= $block->escapeHtml(__('Price')) ?>">
+            <?= $block->getUnitPriceHtml($_item) ?>
+        </td>
+    <?php endif; ?>
+    <td class="col qty" data-th="<?= $block->escapeHtml(__('Qty')) ?>">
+        <div class="field qty">
+            <div class="control qty">
+                <label for="cart-<?= $block->escapeHtmlAttr($_item->getId()) ?>-qty">
+                    <span class="label"><?= $block->escapeHtml(__('Qty')) ?></span>
+                    <input id="cart-<?= $block->escapeHtmlAttr($_item->getId()) ?>-qty"
+                           name="cart[<?= $block->escapeHtmlAttr($_item->getId()) ?>][qty]"
+                           data-cart-item-id="<?= $block->escapeHtmlAttr($_item->getSku()) ?>"
+                           value="<?= $block->escapeHtmlAttr($block->getQty()) ?>"
+                           type="number"
+                           min="0"
+                           size="4"
+                           step="any"
+                           title="<?= $block->escapeHtmlAttr(__('Qty')) ?>"
+                           class="input-text qty"
+                           data-validate="{required:true,'validate-greater-than-zero':true}"
+                           data-item-qty="<?= $block->escapeHtmlAttr($block->getQty()) ?>"
+                           data-role="cart-item-qty"/>
+                </label>
+            </div>
+        </div>
+    </td>
+
+    <td class="col subtotal" data-th="<?= $block->escapeHtml(__('Subtotal')) ?>">
+        <?php if ($canApplyMsrp): ?>
+            <span class="cart msrp subtotal">--</span>
+        <?php else: ?>
+            <?= $block->getRowTotalHtml($_item) ?>
+        <?php endif; ?>
+    </td>
+
+    <td class="col delivery-field" data-th="<?= $block->escapeHtml(__('Delivery Info')) ?>">
+        <?php if ($deliveryTimeType || $deliveryDate): ?>
+            <div class="delivery-info-container">
+                <div class="delivery-info-card">
+                    <?php if ($deliveryTimeType): ?>
+                        <div class="delivery-item">
+                            <div class="delivery-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M19 7c0-1.1-.9-2-2-2h-3V3c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1v4H2c-.55 0-1 .45-1 1v11c0 .55.45 1 1 1h18c.55 0 1-.45 1-1V7zM6 4h6v1H6V4zm11 14H3V8h1v1c0 .55.45 1 1 1s1-.45 1-1V8h6v1c0 .55.45 1 1 1s1-.45 1-1V8h4v10z"/>
+                                </svg>
+                            </div>
+                            <div class="delivery-content">
+                                <span class="delivery-label">Delivery Method</span>
+                                <span class="delivery-value delivery-type"><?= $block->escapeHtml($deliveryTimeType) ?></span>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($deliveryDate): ?>
+                        <div class="delivery-item">
+                            <div class="delivery-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/>
+                                </svg>
+                            </div>
+                            <div class="delivery-content">
+                                <span class="delivery-label">Delivery Date</span>
+                                <span class="delivery-value delivery-date"><?= $block->escapeHtml(date('M d, Y', strtotime($deliveryDate))) ?></span>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="delivery-info-empty">
+                <span class="delivery-empty-text">Standard Delivery</span>
+            </div>
+        <?php endif; ?>
+    </td>
+</tr>
+<tr class="item-actions">
+    <td colspan="4">
+        <div class="actions-toolbar">
+            <?= /* @noEscape */ $block->getActions($_item) ?>
+        </div>
+    </td>
+</tr>
+</tbody>
+
+<style>
+    /* Delivery Field Styles */
+    .delivery-field {
+        vertical-align: top;
+        padding: 15px 10px;
+        min-width: 180px;
+    }
+
+    .delivery-info-container {
+        position: relative;
+    }
+
+    .delivery-info-card {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+        transition: all 0.3s ease;
+    }
+
+    .delivery-info-card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        transform: translateY(-1px);
+    }
+
+    .delivery-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 10px;
+    }
+
+    .delivery-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .delivery-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        margin-top: 2px;
+        color: #6c757d;
+        flex-shrink: 0;
+    }
+
+    .delivery-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .delivery-label {
+        font-size: 11px;
+        font-weight: 500;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+        line-height: 1.2;
+    }
+
+    .delivery-value {
+        font-size: 13px;
+        font-weight: 600;
+        color: #343a40;
+        line-height: 1.3;
+    }
+
+    .delivery-type {
+        color: #28a745;
+    }
+
+    .delivery-date {
+        color: #007bff;
+    }
+
+    .delivery-info-empty {
+        text-align: center;
+        padding: 15px 10px;
+        color: #6c757d;
+        font-style: italic;
+    }
+
+    .delivery-empty-text {
+        font-size: 12px;
+        color: #adb5bd;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .delivery-field {
+            padding: 10px 8px;
+            min-width: auto;
+        }
+
+        .delivery-info-card {
+            padding: 10px;
+        }
+
+        .delivery-item {
+            margin-bottom: 8px;
+        }
+
+        .delivery-icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+        }
+
+        .delivery-label {
+            font-size: 10px;
+        }
+
+        .delivery-value {
+            font-size: 12px;
+        }
+    }
+
+    /* Dark Mode Support */
+    @media (prefers-color-scheme: dark) {
+        .delivery-info-card {
+            background: #2c3e50;
+            border-color: #34495e;
+        }
+
+        .delivery-label {
+            color: #bdc3c7;
+        }
+
+        .delivery-value {
+            color: #ecf0f1;
+        }
+
+        .delivery-type {
+            color: #2ecc71;
+        }
+
+        .delivery-date {
+            color: #3498db;
+        }
+
+        .delivery-empty-text {
+            color: #7f8c8d;
+        }
+    }
+
+    /* Print Styles */
+    @media print {
+        .delivery-info-card {
+            background: white !important;
+            box-shadow: none !important;
+            border: 1px solid #ccc !important;
+        }
+
+        .delivery-icon {
+            display: none;
+        }
+
+        .delivery-content {
+            margin-left: 0;
+        }
+    }
+</style>

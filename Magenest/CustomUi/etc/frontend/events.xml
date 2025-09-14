@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+<!--    <event name="checkout_cart_product_add_before">-->
+<!--        <observer name="add_custom_delivery_data"-->
+<!--                  instance="Magenest\CustomUi\Observer\AddToCartBefore" />-->
+<!--    </event>-->
+
+    <event name="checkout_cart_product_add_after">
+        <observer name="add_deliverytime_to_quote_item" instance="Magenest\CustomUi\Observer\AddDeliveryTimeToQuoteItem"/>
+    </event>
+</config>

@@ -1,0 +1,4 @@
+<?php /** @var \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn $block */ ?>
+<?php $item = $block->getItem(); ?>
+
+<?= $block->escapeHtml($item->getDeliveryDate() ?: '-') ?>

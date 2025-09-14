@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+
+    <body>
+<!--        <referenceBlock name="order_tab_info">-->
+<!--            <action method="setTemplate">-->
+<!--                <argument name="template" xsi:type="string">Magenest_CustomUi::order/view/tab/info.phtml</argument>-->
+<!--            </action>-->
+<!--        </referenceBlock>-->
+        <referenceBlock name="order_items">
+            <block class="Magenest\CustomUi\Block\Adminhtml\Order\View\Item\Delivery"
+                   name="magenest.order.item.delivery"
+                   template="Magenest_CustomUi::order/items/renderer/delivery.phtml">
+                <arguments>
+                    <argument name="area" xsi:type="string">adminhtml</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

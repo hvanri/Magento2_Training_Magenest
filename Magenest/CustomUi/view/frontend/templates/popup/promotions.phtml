@@ -1,0 +1,340 @@
+<?php
+/** @var \Magenest\CustomUi\Block\Popup\Promotions $block */
+$promotions = $block->getPromotionsByCustomerGroup();
+?>
+
+<?php if (!empty($promotions)): ?>
+    <div id="promotion-popup" class="promotion-popup" style="display:none;">
+        <div class="popup-overlay"></div>
+        <div class="popup-content">
+            <div class="popup-header">
+                <h3><?= __('Ưu Đãi Đặc Biệt Dành Cho Bạn!') ?></h3>
+                <button class="popup-close" onclick="closePromotionPopup()">&times;</button>
+            </div>
+            <div class="popup-body">
+                <?php foreach ($promotions as $promotion): ?>
+                    <div class="promotion-item">
+                        <div class="promotion-icon">🎉</div>
+                        <div class="promotion-details">
+                            <h4><?= $block->escapeHtml($promotion['name']) ?></h4>
+                            <?php if ($promotion['description']): ?>
+                                <p class="promotion-desc"><?= $block->escapeHtml($promotion['description']) ?></p>
+                            <?php endif; ?>
+                            <div class="promotion-discount">
+                                <?= $block->getDiscountText($promotion) ?>
+                            </div>
+                            <?php if ($promotion['coupon_code']): ?>
+                                <div class="coupon-code">
+                                    <span>Mã: <strong><?= $block->escapeHtml($promotion['coupon_code']) ?></strong></span>
+                                    <button onclick="copyCouponCode('<?= $block->escapeHtml($promotion['coupon_code']) ?>')"
+                                            class="copy-btn">Copy</button>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($promotion['to_date']): ?>
+                                <div class="promotion-expiry">
+                                    Có hiệu lực đến: <?= date('d/m/Y', strtotime($promotion['to_date'])) ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <div class="popup-footer">
+                <button class="btn-shop-now" onclick="closePromotionPopup()">
+                    <?= __('Mua Sắm Ngay') ?>
+                </button>
+                <label class="dont-show-again">
+                    <input type="checkbox" id="dont-show-popup">
+                    <?= __('Không hiển thị lại hôm nay') ?>
+                </label>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<style>
+    .promotion-popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+    }
+
+    .popup-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    .popup-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        border-radius: 12px;
+        max-width: 500px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        animation: popupFadeIn 0.3s ease-out;
+    }
+
+    @keyframes popupFadeIn {
+        from {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    }
+
+    .popup-header {
+        padding: 20px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .popup-header h3 {
+        margin: 0;
+        color: #e74c3c;
+        font-size: 20px;
+    }
+
+    .popup-close {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #999;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .popup-close:hover {
+        color: #333;
+    }
+
+    .popup-body {
+        padding: 20px;
+    }
+
+    .promotion-item {
+        display: flex;
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border-left: 4px solid #e74c3c;
+    }
+
+    .promotion-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .promotion-icon {
+        font-size: 24px;
+        margin-right: 15px;
+        align-self: flex-start;
+    }
+
+    .promotion-details {
+        flex: 1;
+    }
+
+    .promotion-details h4 {
+        margin: 0 0 8px 0;
+        color: #333;
+        font-size: 16px;
+    }
+
+    .promotion-desc {
+        margin: 0 0 10px 0;
+        color: #666;
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .promotion-discount {
+        background: #e74c3c;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        display: inline-block;
+        font-weight: bold;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .coupon-code {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        padding: 8px 12px;
+        border-radius: 4px;
+        margin: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .coupon-code span {
+        color: #856404;
+        font-size: 14px;
+    }
+
+    .copy-btn {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 4px 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    .copy-btn:hover {
+        background: #0056b3;
+    }
+
+    .promotion-expiry {
+        font-size: 12px;
+        color: #999;
+        margin-top: 8px;
+    }
+
+    .popup-footer {
+        padding: 20px;
+        border-top: 1px solid #eee;
+        text-align: center;
+    }
+
+    .btn-shop-now {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .btn-shop-now:hover {
+        background: #218838;
+    }
+
+    .dont-show-again {
+        font-size: 14px;
+        color: #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .dont-show-again input {
+        margin-right: 5px;
+    }
+
+    @media (max-width: 768px) {
+        .popup-content {
+            width: 95%;
+            margin: 10px;
+        }
+
+        .promotion-item {
+            flex-direction: column;
+        }
+
+        .promotion-icon {
+            margin-right: 0;
+            margin-bottom: 10px;
+            align-self: center;
+        }
+    }
+</style>
+
+<script>
+    function showPromotionPopup() {
+        // Kiểm tra localStorage xem có ẩn popup hôm nay không
+        const today = new Date().toDateString();
+        const hidePopupToday = localStorage.getItem('hidePromotionPopup');
+
+        if (hidePopupToday === today) {
+            return;
+        }
+
+        document.getElementById('promotion-popup').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closePromotionPopup() {
+        document.getElementById('promotion-popup').style.display = 'none';
+        document.body.style.overflow = 'auto';
+
+        // Lưu trạng thái nếu checkbox được chọn
+        const dontShowCheckbox = document.getElementById('dont-show-popup');
+        if (dontShowCheckbox && dontShowCheckbox.checked) {
+            const today = new Date().toDateString();
+            localStorage.setItem('hidePromotionPopup', today);
+        }
+    }
+
+    function copyCouponCode(code) {
+        navigator.clipboard.writeText(code).then(function() {
+            // Hiển thị thông báo đã copy
+            const notification = document.createElement('div');
+            notification.innerHTML = 'Đã copy mã: ' + code;
+            notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            z-index: 10000;
+            font-size: 14px;
+        `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 2000);
+        });
+    }
+
+    // Hiển thị popup sau khi trang load xong
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(showPromotionPopup, 2000); // Hiển thị sau 2 giây
+    });
+
+    // Đóng popup khi click overlay
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('popup-overlay')) {
+            closePromotionPopup();
+        }
+    });
+
+    // Đóng popup khi nhấn ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closePromotionPopup();
+        }
+    });
+</script>
