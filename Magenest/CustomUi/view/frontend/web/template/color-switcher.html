@@ -1,0 +1,59 @@
+<div class="color-switcher-toggle" data-bind="click: togglePanel, css: {'is-loading': isLoading}">
+    <span class="switcher-icon">🎨</span>
+    <span class="switcher-text" data-bind="i18n: 'Colors'"></span>
+</div>
+
+<div class="color-options-panel" data-bind="css: {'is-visible': panelVisible}">
+    <h3 data-bind="i18n: 'Choose Background Color'"></h3>
+
+    <!-- ko if: isLoading -->
+    <div class="loading-spinner">
+        <span data-bind="i18n: 'Loading colors...'"></span>
+    </div>
+    <!-- /ko -->
+
+    <!-- ko ifnot: isLoading -->
+    <div class="color-grid" data-bind="foreach: colorOptions">
+        <div class="color-option"
+             data-bind="click: $parent.selectColor.bind($parent),
+                        css: {'active': $parent.selectedColor() && $parent.selectedColor().index === $data.index},
+                        attr: {
+                            'tabindex': 0,
+                            'role': 'button',
+                            'aria-label': 'Select ' + title + ' color'
+                        },
+                        event: {keydown: $parent.handleKeyDown.bind($parent)}">
+            <div class="color-preview"
+                 data-bind="style: {'background': 'linear-gradient(45deg, ' + colorCode + ', ' + secondaryColor + ')'}">
+                <div class="color-check" data-bind="text: '✓'"></div>
+            </div>
+            <span class="color-name" data-bind="text: title"></span>
+        </div>
+    </div>
+
+    <div class="color-actions">
+        <button type="button" class="reset-color-btn"
+                data-bind="click: resetColor, i18n: 'Reset'">
+        </button>
+        <button type="button" class="random-color-btn"
+                data-bind="click: randomColor, i18n: 'Random'">
+        </button>
+    </div>
+
+    <div class="color-info">
+        <small class="info-text" data-bind="i18n: 'Colors will be saved for your next visit'"></small>
+    </div>
+    <!-- /ko -->
+
+    <!-- ko if: errorMessage -->
+    <div class="error-message" data-bind="text: errorMessage"></div>
+    <!-- /ko -->
+</div>
+
+<!-- Notification Template -->
+<!-- ko if: showNotification -->
+<div class="color-change-notification"
+     data-bind="text: notificationMessage,
+                css: {'fade-in': showNotification}">
+</div>
+<!-- /ko -->

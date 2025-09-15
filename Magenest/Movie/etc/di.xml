@@ -7,6 +7,7 @@
                     <item name="magenest_movie_listing_data_source" xsi:type="string">Magenest\Movie\Model\ResourceModel\Movie\Grid\Collection</item>
                     <item name="magenest_director_listing_data_source" xsi:type="string">Magenest\Movie\Model\ResourceModel\Director\Grid\Collection</item>
                     <item name="magenest_actor_listing_data_source" xsi:type="string">Magenest\Movie\Model\ResourceModel\Actor\Grid\Collection</item>
+                    <item name="magenest_banner_listing_data_source" xsi:type="string">Magenest\Banner\Model\ResourceModel\Banner\Grid\Collection</item>
                 </argument>
             </arguments>
         </type>
@@ -26,6 +27,12 @@
         <arguments>
             <argument name="mainTable" xsi:type="string">magenest_actor</argument>
             <argument name="resourceModel" xsi:type="string">Magenest\Movie\Model\ResourceModel\Actor</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magenest\Banner\Model\ResourceModel\Banner\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">magenest_banner</argument>
+            <argument name="resourceModel" xsi:type="string">Magenest\Banner\Model\ResourceModel\Banner</argument>
         </arguments>
     </virtualType>
 

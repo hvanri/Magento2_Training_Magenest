@@ -1,0 +1,543 @@
+<?php
+// File: app/code/Magenest/CustomUi/view/frontend/templates/color-switcher.phtml
+?>
+
+<div class="color-switcher-wrapper">
+    <div class="color-switcher-toggle">
+        <span class="switcher-icon">🎨</span>
+        <span class="switcher-text"><?= __('Colors') ?></span>
+    </div>
+
+    <div class="color-options-panel">
+        <h3><?= __('Choose Background Color') ?></h3>
+        <div class="color-grid">
+            <?php $colors = $this->getColorOptions(); ?>
+            <?php foreach ($colors as $index => $color): ?>
+                <?php
+                $primaryColor = $this->escapeHtmlAttr($color['color_code']);
+                $secondaryColor = $this->escapeHtmlAttr($this->lightenColor($color['color_code'], 20));
+                ?>
+                <div class="color-option"
+                     data-color="<?= $primaryColor ?>"
+                     data-secondary="<?= $secondaryColor ?>"
+                     data-title="<?= $this->escapeHtmlAttr($color['color_title']) ?>"
+                     data-index="<?= $index ?>"
+                     tabindex="0"
+                     role="button"
+                     aria-label="<?= $this->escapeHtmlAttr(__('Select %1 color', $color['color_title'])) ?>">
+                    <div class="color-preview"
+                         style="background: linear-gradient(45deg, <?= $primaryColor ?>, <?= $secondaryColor ?>);">
+                        <div class="color-check">✓</div>
+                    </div>
+                    <span class="color-name"><?= $this->escapeHtml($color['color_title']) ?></span>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="color-actions">
+            <button type="button" class="reset-color-btn" title="<?= __('Reset to Default') ?>">
+                <?= __('Reset') ?>
+            </button>
+            <button type="button" class="random-color-btn" title="<?= __('Random Color') ?>">
+                <?= __('Random') ?>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    require(['jquery'], function($) {
+        $(document).ready(function() {
+            // Initialize CSS variables immediately
+            initializeCSSVariables();
+
+            // Khởi tạo color switcher
+            initColorSwitcher();
+
+            // Load màu đã lưu từ localStorage
+            loadSavedColor();
+        });
+
+        function initializeCSSVariables() {
+            // Set default CSS variables to prevent "Cannot resolve" errors
+            const defaultPrimary = '#0077be';
+            const defaultSecondary = '#4da6d9';
+
+            document.documentElement.style.setProperty('--primary-color', defaultPrimary);
+            document.documentElement.style.setProperty('--secondary-color', defaultSecondary);
+        }
+
+        function initColorSwitcher() {
+            // Color option click and keyboard events
+            $('.color-option').on('click keydown', function(e) {
+                if (e.type === 'keydown' && e.keyCode !== 13 && e.keyCode !== 32) {
+                    return;
+                }
+
+                e.preventDefault();
+
+                const colorCode = $(this).data('color');
+                const secondaryColor = $(this).data('secondary');
+                const colorTitle = $(this).data('title');
+                const colorIndex = $(this).data('index');
+
+                // Update active state
+                $('.color-option').removeClass('active').attr('aria-selected', 'false');
+                $(this).addClass('active').attr('aria-selected', 'true');
+
+                // Apply background gradient
+                applyBackgroundGradient(colorCode, secondaryColor, colorIndex);
+
+                // Save to localStorage
+                localStorage.setItem('selected_color', JSON.stringify({
+                    code: colorCode,
+                    secondary: secondaryColor,
+                    title: colorTitle,
+                    index: colorIndex
+                }));
+
+                // Show notification
+                //showColorChangeNotification(colorTitle);
+            });
+            var defaultMagentoColor = getComputedStyle(document.body).backgroundColor;
+
+            // Hàm reset
+            $('.reset-color-btn').on('click', function() {
+                // 1. Xóa màu lưu trong localStorage
+                localStorage.removeItem('selected_color');
+
+                // 2. Reset CSS variables về màu mặc định
+                const defaultColor = getComputedStyle(document.body).backgroundColor;
+                document.documentElement.style.setProperty('--primary-color', defaultColor);
+                document.documentElement.style.setProperty('--secondary-color', defaultColor);
+
+                // 3. Xóa tất cả gradient classes
+                $('body').removeClass(function(index, className) {
+                    return (className.match(/(^|\s)gradient-bg-\S+/g) || []).join(' ');
+                });
+
+                // 4. Xóa active state trên tất cả color-option
+                $('.color-option').removeClass('active').attr('aria-selected', 'false');
+            });
+
+            // Random button
+            $('.random-color-btn').on('click', function() {
+                const $colors = $('.color-option');
+                const randomIndex = Math.floor(Math.random() * $colors.length);
+                $colors.eq(randomIndex).trigger('click');
+            });
+        }
+
+        function applyBackgroundGradient(colorCode, secondaryColor, index) {
+            // Validate colors first
+            if (!colorCode || !secondaryColor) {
+                console.warn('Invalid colors provided:', colorCode, secondaryColor);
+                return;
+            }
+
+            // Use provided secondary color instead of calculating
+            const primaryColor = colorCode;
+            const secondary = secondaryColor;
+
+            // Check if CSS variables are supported
+            const supportsVariables = CSS && CSS.supports && CSS.supports('background', 'var(--primary-color)');
+
+            if (supportsVariables) {
+                // Set CSS variables
+                document.documentElement.style.setProperty('--primary-color', primaryColor);
+                document.documentElement.style.setProperty('--secondary-color', secondary);
+
+                // Remove all gradient classes
+                $('body').removeClass(function (index, className) {
+                    return (className.match (/(^|\s)gradient-bg-\S+/g) || []).join(' ');
+                });
+
+                // Add new gradient class
+                const gradientClass = 'gradient-bg-' + ((index % 4) + 1);
+                $('body').addClass(gradientClass);
+            } else {
+                // Fallback: Direct style application for older browsers
+                const gradientPatterns = [
+                    `linear-gradient(-45deg, ${primaryColor}, ${secondary})`,
+                    `linear-gradient(45deg, ${primaryColor}, ${secondary})`,
+                    `linear-gradient(90deg, ${primaryColor}, ${secondary})`,
+                    `linear-gradient(135deg, ${primaryColor}, ${secondary})`
+                ];
+
+                const selectedPattern = gradientPatterns[index % 4];
+                $('body').css({
+                    'background': selectedPattern,
+                    'background-size': '400% 400%',
+                    'animation': 'gradientShift 8s ease infinite'
+                });
+            }
+        }
+
+        function loadSavedColor() {
+            const savedColor = localStorage.getItem('selected_color');
+            if (savedColor) {
+                try {
+                    const colorData = JSON.parse(savedColor);
+                    const colorOption = $(`.color-option[data-index="${colorData.index}"]`);
+
+                    if (colorOption.length) {
+                        // Small delay to ensure DOM is ready
+                        setTimeout(function() {
+                            colorOption.trigger('click');
+                        }, 100);
+                        return;
+                    }
+                } catch (e) {
+                    console.warn('Could not parse saved color data:', e);
+                }
+            }
+
+            // Load default color (first option)
+            setTimeout(function() {
+                $('.color-option').first().trigger('click');
+            }, 150);
+        }
+
+        function showColorChangeNotification(colorTitle) {
+            // Remove existing notifications
+            $('.color-change-notification').remove();
+
+            // Create notification
+            const $notification = $('<div class="color-change-notification">')
+                .text('Color changed to: ' + colorTitle)
+                .css({
+                    position: 'fixed',
+                    top: '20px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    background: 'rgba(0, 0, 0, 0.8)',
+                    color: 'white',
+                    padding: '10px 20px',
+                    borderRadius: '5px',
+                    fontSize: '14px',
+                    zIndex: 10000,
+                    opacity: 0,
+                    transition: 'opacity 0.3s ease'
+                })
+                .appendTo('body');
+
+            // Animate in
+            setTimeout(() => $notification.css('opacity', 1), 10);
+
+            // Animate out
+            setTimeout(() => {
+                $notification.css('opacity', 0);
+                setTimeout(() => $notification.remove(), 300);
+            }, 2000);
+        }
+
+        // Expose debug function for testing
+        window.debugColorSwitcher = function() {
+            const styles = getComputedStyle(document.documentElement);
+            const primaryColor = styles.getPropertyValue('--primary-color').trim();
+            const secondaryColor = styles.getPropertyValue('--secondary-color').trim();
+
+            console.log('CSS Variables Debug:', {
+                primary: primaryColor,
+                secondary: secondaryColor,
+                supported: CSS.supports('background', 'var(--primary-color)'),
+                bodyClasses: document.body.className
+            });
+
+            return { primaryColor, secondaryColor };
+        };
+    });
+</script>
+
+<style>
+    /* Initialize CSS variables to prevent "Cannot resolve" errors */
+    :root {
+        --primary-color: #0077be;
+        --secondary-color: #4da6d9;
+    }
+
+    .color-switcher-wrapper {
+        position: fixed;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        z-index: 9999;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    }
+
+    .color-switcher-toggle {
+        background: linear-gradient(135deg, #333 0%, #555 100%);
+        color: white;
+        padding: 15px 10px;
+        cursor: pointer;
+        border-radius: 5px 0 0 5px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .color-switcher-toggle:hover {
+        background: linear-gradient(135deg, #555 0%, #777 100%);
+        padding-left: 15px;
+        transform: translateX(-5px);
+    }
+
+    .color-switcher-toggle .switcher-icon {
+        font-size: 18px;
+        animation: pulse 2s infinite;
+    }
+
+    .color-options-panel {
+        position: absolute;
+        right: 100%;
+        top: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        padding: 25px;
+        min-width: 300px;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+        transform: translateX(100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .color-switcher-wrapper:hover .color-options-panel,
+    .color-options-panel:hover {
+        transform: translateX(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .color-options-panel h3 {
+        margin: 0 0 20px 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        text-align: center;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 10px;
+    }
+
+    .color-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 15px 0 20px 0;
+    }
+
+    .color-option {
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 10px;
+        border-radius: 12px;
+        position: relative;
+    }
+
+    .color-option:hover {
+        transform: translateY(-3px);
+        background: rgba(0, 0, 0, 0.05);
+    }
+
+    .color-option:focus {
+        outline: 2px solid #4A90E2;
+        outline-offset: 2px;
+    }
+
+    .color-preview {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin: 0 auto 8px;
+        border: 3px solid transparent;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .color-check {
+        opacity: 0;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        transition: opacity 0.3s ease;
+    }
+
+    .color-option.active .color-preview {
+        border-color: #333;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+        transform: scale(1.1);
+    }
+
+    .color-option.active .color-check {
+        opacity: 1;
+    }
+
+    .color-name {
+        display: block;
+        font-size: 12px;
+        color: #666;
+        font-weight: 500;
+    }
+
+    .color-option.active .color-name {
+        color: #333;
+        font-weight: 600;
+    }
+
+    .color-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        padding-top: 15px;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .reset-color-btn,
+    .random-color-btn {
+        flex: 1;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        background: white;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .reset-color-btn:hover,
+    .random-color-btn:hover {
+        background: #f8f9fa;
+        border-color: #999;
+    }
+
+    /* Background gradient animation with CSS variables */
+    body {
+        transition: background 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        background: linear-gradient(-45deg, var(--primary-color), var(--secondary-color));
+        background-size: 400% 400%;
+    }
+
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        25% { background-position: 100% 50%; }
+        50% { background-position: 100% 100%; }
+        75% { background-position: 0% 100%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+
+    .gradient-bg-1 {
+        background: linear-gradient(-45deg, var(--primary-color), var(--secondary-color)) !important;
+        background-size: 400% 400% !important;
+        animation: gradientShift 8s ease infinite;
+    }
+    .gradient-bg-2 {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) !important;
+        background-size: 400% 400% !important;
+        animation: gradientShift 10s ease infinite;
+    }
+    .gradient-bg-3 {
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)) !important;
+        background-size: 400% 400% !important;
+        animation: gradientShift 12s ease infinite;
+    }
+    .gradient-bg-4 {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+        background-size: 400% 400% !important;
+        animation: gradientShift 15s ease infinite;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .color-switcher-wrapper {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            top: auto;
+            transform: none;
+        }
+
+        .color-switcher-toggle {
+            writing-mode: horizontal-tb;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .color-switcher-toggle .switcher-text {
+            display: none;
+        }
+
+        .color-options-panel {
+            bottom: 70px;
+            right: 0;
+            top: auto;
+            min-width: 280px;
+        }
+
+        .color-grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .color-preview {
+            width: 50px;
+            height: 50px;
+        }
+    }
+
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+        .color-options-panel {
+            background: rgba(30, 30, 30, 0.95);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .color-options-panel h3 {
+            color: #fff;
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .color-name {
+            color: #ccc;
+        }
+
+        .color-option.active .color-name {
+            color: #fff;
+        }
+
+        .color-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .reset-color-btn,
+        .random-color-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .reset-color-btn:hover,
+        .random-color-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    }
+</style>

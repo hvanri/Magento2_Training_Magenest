@@ -1,0 +1,45 @@
+<div id="background-switch" class="menu-background-switch" data-bind="scope: 'backgroundSwitcher'">
+    <!-- ko foreach: colors -->
+    <button data-bind="text: title, click: $parent.selectColor, style: { backgroundColor: code }"></button>
+    <!-- /ko -->
+</div>
+
+<script type="text/javascript">
+    require(['ko'], function(ko) {
+        var element = document.getElementById('background-switch');
+        if (element && !ko.dataFor(element)) { // chỉ bind nếu chưa bind
+            var colorOptions = <?= json_encode($block->getColorOptions()) ?>;
+            var defaultColor = '<?= $block->getDefaultColor() ?>';
+
+            function BackgroundSwitcher() {
+                var self = this;
+                self.colors = ko.observableArray(colorOptions);
+                self.selectedColor = ko.observable(defaultColor);
+
+                self.selectColor = function(item) {
+                    self.selectedColor(item.code);
+                    document.body.style.backgroundColor = item.code;
+                    localStorage.setItem('bg_color', item.code);
+                };
+
+                // Load từ localStorage
+                var saved = localStorage.getItem('bg_color');
+                if (saved) {
+                    self.selectedColor(saved);
+                    document.body.style.backgroundColor = saved;
+                }
+            }
+
+            ko.applyBindings(new BackgroundSwitcher(), element);
+        }
+    });
+</script>
+
+<style>
+    .menu-background-switch button {
+        margin: 0 4px;
+        padding: 4px 8px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+</style>
