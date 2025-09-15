@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Magenest_Banner::css/banner.css"/>
+    </head>
+    <body>
+        <!-- Banner Top - Trên header -->
+        <referenceContainer name="page.top">
+            <block class="Magenest\Banner\Block\Banner"
+                   name="banner.top"
+                   template="Magenest_Banner::banner.phtml"
+                   before="-">
+                <arguments>
+                    <argument name="position" xsi:type="number">1</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
+        <!-- Wrapper cho layout 3 cột -->
+        <referenceContainer name="main.content">
+            <container name="banner.layout.wrapper" htmlTag="div" htmlClass="banner-layout-wrapper" before="-">
+                <!-- Banner Left -->
+                <block class="Magenest\Banner\Block\Banner"
+                       name="banner.left"
+                       template="Magenest_Banner::banner.phtml"
+                       before="-">
+                    <arguments>
+                        <argument name="position" xsi:type="number">2</argument>
+                    </arguments>
+                </block>
+
+                <!-- Content Area -->
+                <container name="main.content.area" htmlTag="div" htmlClass="main-content-area">
+                </container>
+
+                <!-- Banner Right -->
+                <block class="Magenest\Banner\Block\Banner"
+                       name="banner.right"
+                       template="Magenest_Banner::banner.phtml"
+                       after="-">
+                    <arguments>
+                        <argument name="position" xsi:type="number">3</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+
+        <!-- Di chuyển tất cả content vào content area -->
+        <move element="columns" destination="main.content.area"/>
+    </body>
+</page>

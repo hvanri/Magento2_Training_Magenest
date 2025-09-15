@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<!--    <head>-->
+<!--        &lt;!&ndash; Thêm CSS file &ndash;&gt;-->
+<!--        <css src="Magenest_CustomUi::css/color-switcher.css"/>-->
+<!--    </head>-->
+<!--    <body>-->
+<!--        <referenceContainer name="after.body.start">-->
+<!--            <block class="Magenest\CustomUi\Block\ColorSwitcher"-->
+<!--                   name="color.switcher"-->
+<!--                   template="Magenest_CustomUi::color-switcher.phtml" />-->
+<!--        </referenceContainer>-->
+<!--    </body>-->
+    <body>
+        <referenceContainer name="after.body.start">
+            <block class="Magenest\CustomUi\Block\ColorSwitcher"
+                   name="color.switcher"
+                   template="Magenest_CustomUi::background_switch.phtml" />
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!-- File: app/code/Magenest/Banner/etc/adminhtml/menu.xml -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Menu/etc/menu.xsd">
+    <menu>
+        <!-- Main Tab -->
+        <add id="Magenest_Banner::banner_tab"
+             title="Magenest Banner"
+             module="Magenest_Banner"
+             sortOrder="10"
+             resource="Magenest_Banner::banner" />
+
+        <!-- Submenu: Banner -->
+        <add id="Magenest_Banner::banner"
+             title="Banner"
+             module="Magenest_Banner"
+             sortOrder="5"
+             parent="Magenest_Banner::banner_tab"
+             action="magenest_banner/banner/index"
+             resource="Magenest_Banner::banner" />
+    </menu>
+</config>

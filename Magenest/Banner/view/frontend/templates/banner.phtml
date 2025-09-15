@@ -1,0 +1,70 @@
+<?php
+/**
+ * @var $block \Magenest\Banner\Block\Banner
+ */
+$banners = $block->getBanners();
+$position = (int) $block->getData('position');
+?>
+
+<?php if (count($banners)): ?>
+    <?php if ($position === 1): ?>
+        <!-- Banner Top: Fullwidth -->
+        <div class="banner-top">
+            <?php foreach ($banners as $banner): ?>
+                <div class="banner-item">
+                    <?php if ($banner->getUploadImage()): ?>
+                        <a href="<?= $block->escapeUrl($banner->getLink()) ?>" target="_blank">
+                            <img src="<?= $block->escapeUrl($block->getBannerImageUrl($banner)) ?>"
+                                 alt="<?= $block->escapeHtmlAttr($banner->getTitle()) ?>"/>
+                        </a>
+                    <?php endif; ?>
+                    <?php if ($banner->getAddText()): ?>
+                        <div class="banner-text">
+                            <?= $block->escapeHtml($banner->getAddText()) ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+    <?php elseif ($position === 2): ?>
+        <!-- Banner Left -->
+        <div class="banner-left">
+            <?php foreach ($banners as $banner): ?>
+                <div class="banner-item">
+                    <?php if ($banner->getUploadImage()): ?>
+                        <a href="<?= $block->escapeUrl($banner->getLink()) ?>" target="_blank">
+                            <img src="<?= $block->escapeUrl($block->getBannerImageUrl($banner)) ?>"
+                                 alt="<?= $block->escapeHtmlAttr($banner->getTitle()) ?>"/>
+                        </a>
+                    <?php endif; ?>
+                    <?php if ($banner->getAddText()): ?>
+                        <div class="banner-text">
+                            <?= $block->escapeHtml($banner->getAddText()) ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+    <?php elseif ($position === 3): ?>
+        <!-- Banner Right -->
+        <div class="banner-right">
+            <?php foreach ($banners as $banner): ?>
+                <div class="banner-item">
+                    <?php if ($banner->getUploadImage()): ?>
+                        <a href="<?= $block->escapeUrl($banner->getLink()) ?>" target="_blank">
+                            <img src="<?= $block->escapeUrl($block->getBannerImageUrl($banner)) ?>"
+                                 alt="<?= $block->escapeHtmlAttr($banner->getTitle()) ?>"/>
+                        </a>
+                    <?php endif; ?>
+                    <?php if ($banner->getAddText()): ?>
+                        <div class="banner-text">
+                            <?= $block->escapeHtml($banner->getAddText()) ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>
